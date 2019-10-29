@@ -1,0 +1,11 @@
+# Compiled Object files
+*.o
+*.obj
+
+# Binary files
+*.bin
+*.elf
+*.exe
+
+*.ld
+*.map
