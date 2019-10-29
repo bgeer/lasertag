@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := 
+SOURCES := terminal.cpp 
 
 # header files in this project
-HEADERS := 
+HEADERS := terminal.hpp 
 
 # other places to look for files for this project
 SEARCH  := 
@@ -21,7 +21,3 @@ SEARCH  :=
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
 include $(RELATIVE)Makefile.due
-
-
-clean: 
-	rm -f *.o
