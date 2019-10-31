@@ -22,10 +22,11 @@ public:
     irLedSender(irLed &output):
         task("irLedSender"),
         output(output),
-        uintChannel(this, "uintChannel"),
+        uintChannel(this, "uintChannel")
     {}
 
 private:
+
     void sendZero(){
         output.write(HIGH);
         hwlib::wait_us(800);
