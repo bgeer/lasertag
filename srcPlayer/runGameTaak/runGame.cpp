@@ -37,30 +37,26 @@ bool runGame::checkXorMessage(const uint16_t & message){
     return true;
 }
 
-int runGame::getPlayerId(const uint16_t & message){
-    int playerId = message & 31744;
+int runGame::get1to5(const uint16_t & message){
+    int playerId = message & 31744; //111110000000000
     playerId = playerId >> 10;
     return playerId;
 }
 
-int runGame::getGameTime(const uint16_t & message){
-    int gameTime = message & 992;
-    //runGame::printUint16_t(gameTime);
+int runGame::get6to10(const uint16_t & message){
+    int gameTime = message & 992; //1111100000
     gameTime = gameTime >> 5;
-    //runGame::printUint16_t(gameTime);
     return gameTime;
 }
 
-int runGame::getWapenPower(const uint16_t & message){
-    int wapenPower = message & 28672;
-    //runGame::printUint16_t(wapenPower);
+int runGame::get1to3(const uint16_t & message){
+    int wapenPower = message & 28672; //111000000000000
     wapenPower = wapenPower >> 11;
-    //runGame::printUint16_t(wapenPower);
     return wapenPower;
 }
 
-int runGame::getCountdown(const uint16_t & message){
-    int countdown = message & 4064;
+int runGame::get4to10(const uint16_t & message){
+    int countdown = message & 4064; //111111100000
     runGame::printUint16_t(countdown);
     countdown = countdown >> 4;
     runGame::printUint16_t(countdown);

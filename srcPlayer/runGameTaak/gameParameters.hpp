@@ -12,6 +12,7 @@ private:
     int gameTime = 0; //hoe lang het spel duurt in minuten
     int wapenpower = 0;
     int startTime = 0; //over hoelang het spel start in secondes
+    int hitpoits = 100;
     playerHitData enemyHits[31] = {};
 
 public:
@@ -44,6 +45,14 @@ public:
 
     int getStartTime(){
         return startTime;
+    }
+
+    void setHitpoits(int newHp){ //updateHp(int wapenpower)     waar willen we shit berekenen?
+        hitpoits = newHp;
+    }
+
+    int getHitpoints(){
+        return hitpoits;
     }
 
     void newHit(uint8_t enemyNr){

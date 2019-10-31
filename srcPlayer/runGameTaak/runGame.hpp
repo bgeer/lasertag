@@ -28,10 +28,10 @@ public:
     bool checkXorMessage(const uint16_t & message);
     bool getbit(int index, const uint32_t & byte);
 
-    int getPlayerId(const uint16_t & message);
-    int getGameTime(const uint16_t & message);
-    int getWapenPower(const uint16_t & message);
-    int getCountdown(const uint16_t & message);
+    int get1to5(const uint16_t & message);
+    int get6to10(const uint16_t & message);
+    int get1to3(const uint16_t & message);
+    int get4to10(const uint16_t & message);
 
 
     void main(){
@@ -59,7 +59,7 @@ public:
                     state = runGameState::hitOrData;
                     break;
                 }
-                case runGameState::hitOrData:
+                case runGameState::hitOrData:{
                     hwlib::cout<<"hitOrData";
                     if(nMesseges < 2){
                         state = runGameState::saveData;
@@ -69,22 +69,32 @@ public:
                         //state = runGameState::hit;
                         break;
                     }
-                case runGameState::saveData:
+                }
+                case runGameState::saveData:{
                     hwlib::cout<<"saveData\n";
                     if(nMesseges == 1){
-                        parameters.setPlayerNr( getPlayerId(message) );
+                        parameters.setPlayerNr( get1to5(message) ); //get player ID
                         //hwlib::cout<<parameters.getPlayerNr()<<hwlib::endl;
-                        parameters.setGameTime( getGameTime(message) );
+                        parameters.setGameTime( get6to10(message) ); //get game time
                         //hwlib::cout<<parameters.getGameTime()<<hwlib::endl;
-                        state = runGameState::waitForMessage;
-                        dubblemessage = 0b11000100000100011100010000010001;
                         break;
                     }else{
-                        parameters.setWapenPower( getWapenPower(message) );
-                        //hwlib::cout<<getWapenPower(message)<<hwlib::endl;
-                        parameters.setWapenPower( getCountdown(message) );
-                        //hwlib::cout<<getCountdown(message)<<hwlib::endl;
+                        parameters.setWapenPower( get1to3(message) ); //get Wapen Power
+                        //hwlib::cout<<get1to3(message)<<hwlib::endl;
+                        parameters.setWapenPower( get4to10(message) );
+                        //hwlib::cout<<get4to10(message)<<hwlib::endl;
+                        state = runGameState::waitForMessage;
+                        break;
                     }
+                }
+                case runGameState::hit:{
+                    parameters.newHit( get1to5(message) ); //get enemy ID
+                    tempWp = get6to10(message); //get enemy wp
+                    setHitpoits( getHitpoints()-tempWp ) //update hp, current hp - enemy wp
+                    //update hp op scherm
+                    state = runGameState::waitForMessage;
+                    break;
+                }
             }
         //}
     }
