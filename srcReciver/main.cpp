@@ -1,7 +1,7 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-#include "/home/pieper/TI-PROJECT-IR/IR_SENDER/irLedController.hpp"
+#include "../srcSender/irLedController.hpp"
 #include "irReciever.hpp"
 
 int main() {

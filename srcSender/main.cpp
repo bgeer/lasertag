@@ -1,5 +1,5 @@
 #include "irLedController.hpp"
-#include "/home/pieper/TI-PROJECT-IR/IR_RECIEVER/irReciever.hpp"
+#include "../srcReciver/irReciever.hpp"
 int main(){
 
     hwlib::wait_ms(1000);
@@ -15,7 +15,7 @@ int main(){
     tsop_gnd.write(0);
     tsop_gnd.flush();
     auto ir = irLed();
-    auto sender = irLedSender(ir, 13);
+    auto sender = irLedSender(ir);
     auto logger = msg_logger();
     auto decoder = msg_decoder(logger);
     auto detector = pause_detector(decoder, input);

@@ -7,7 +7,7 @@
 
 enum class msg_decoder_state {
     idle,
-    message_in_progress,
+    reading
 };
 
 
@@ -30,15 +30,14 @@ class msg_decoder : public rtos::task<>, public pause_listener {
                     if (pause > 3'500 && pause < 5'000) {
                         // When pause after start signal
                         num_bits = data = 0;
-                        state = msg_decoder_state::message_in_progress;
+                        state = msg_decoder_state::reading;
                     }
                     break;
-                case msg_decoder_state::message_in_progress:
+                case msg_decoder_state::reading:
                     if (num_bits == 32) {
                         state = msg_decoder_state::idle;
-                        if(check(data)){
-                            listener.msg_received(data_to_msg(data));
-                        }
+                        listener.msg_received(data);
+                        
 
                     } else {
                         num_bits++;
@@ -54,11 +53,7 @@ class msg_decoder : public rtos::task<>, public pause_listener {
         pauses.write(length);
     }
 
-    ir_msg data_to_msg(int data) {
-        ir_msg msg;
-        msg.command = data;
-        return msg;
-    }
+
 };
 
 #endif
