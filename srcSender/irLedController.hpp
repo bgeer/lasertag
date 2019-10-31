@@ -7,7 +7,7 @@
 #include "irLed.hpp"
 #include <rtos.hpp>
 
-#include "../srcReciver/bitHelper.hpp"
+#include "../srcReciever/bitHelper.hpp"
 
 class irLedSender : public rtos::task<>{
 
@@ -23,7 +23,6 @@ public:
         task("irLedSender"),
         output(output),
         uintChannel(this, "uintChannel"),
-        ID(p_ID)
     {}
 
 private:

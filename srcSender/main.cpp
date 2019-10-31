@@ -1,5 +1,5 @@
 #include "irLedController.hpp"
-#include "../srcReciver/irReciever.hpp"
+#include "../srcReciever/irReciever.hpp"
 int main(){
 
     hwlib::wait_ms(1000);
