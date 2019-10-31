@@ -7,7 +7,7 @@
 
 class msg_logger : public rtos::task<>, public msg_listener {
   private:
-    rtos::channel<ir_msg, 10> messages;
+    rtos::channel<uint32_t, 10> messages;
 
   public:
     msg_logger()
@@ -16,12 +16,12 @@ class msg_logger : public rtos::task<>, public msg_listener {
     void main() override {
         for (;;) {
             auto msg = messages.read();
-            hwlib::cout  << "\ncommand: " << msg.command << "\n\n";
+            hwlib::cout  << "\ncommand: " << msg << "\n\n";
             hwlib::wait_ms(0);
         }
     }
 
-    void msg_received(ir_msg msg) override {
+    void msg_received(uint32_t msg) override {
         messages.write(msg);
     }
 };

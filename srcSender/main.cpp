@@ -1,5 +1,5 @@
 #include "irLedController.hpp"
-#include "/home/pieper/TI-PROJECT-IR/IR_RECIEVER/irReciever.hpp"
+#include "../srcReciver/irReciever.hpp"
 int main(){
 
     hwlib::wait_ms(1000);

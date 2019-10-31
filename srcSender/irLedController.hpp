@@ -7,7 +7,7 @@
 #include "irLed.hpp"
 #include <rtos.hpp>
 
-#include "/home/pieper/TI-PROJECT-IR/IR_RECIEVER/bitHelper.hpp"
+#include "../srcReciver/bitHelper.hpp"
 
 class irLedSender : public rtos::task<>{
 
@@ -65,7 +65,7 @@ public:
     void main() override {
 
         for(;;){
-            hwlib::wait_ms(1000);
+            hwlib::wait_ms(1200);
             write(ID); 
         }
     }
