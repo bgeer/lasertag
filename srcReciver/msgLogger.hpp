@@ -5,7 +5,7 @@
 
 
 
-class msg_logger : public rtos::task<>, public msg_listener {
+class run_game : public rtos::task<>, public msg_listener {
   private:
     rtos::channel<uint32_t, 10> messages;
 

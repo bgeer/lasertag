@@ -15,17 +15,18 @@ private:
 
     irLed &output;
     rtos::channel<uint16_t, 10> uintChannel;
-    int ID;
+    
 
 public:
 
-    irLedSender(irLed &output, int p_ID):
+    irLedSender(irLed &output):
         task("irLedSender"),
         output(output),
         uintChannel(this, "uintChannel"),
         ID(p_ID)
     {}
 
+private:
     void sendZero(){
         output.write(HIGH);
         hwlib::wait_us(800);
@@ -65,7 +66,7 @@ public:
     void main() override {
 
         for(;;){
-            hwlib::wait_ms(1200);
+            auto message = uintChannel.read();
             write(ID); 
         }
     }

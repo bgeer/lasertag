@@ -15,7 +15,7 @@ int main(){
     tsop_gnd.write(0);
     tsop_gnd.flush();
     auto ir = irLed();
-    auto sender = irLedSender(ir, 13);
+    auto sender = irLedSender(ir);
     auto logger = msg_logger();
     auto decoder = msg_decoder(logger);
     auto detector = pause_detector(decoder, input);
