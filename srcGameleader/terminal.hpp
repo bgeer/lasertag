@@ -8,22 +8,28 @@ class terminal {
 private:
 
     hwlib::window &display;
-
-    int index;
-    hwlib::string<16> data[8];
+    hwlib::xy &start;
+    hwlib::xy &end;
 
 public:
 
-    terminal(hwlib::window &display):
+    terminal(
+        hwlib::window &display,
+        hwlib::xy &start,
+        hwlib::xy &end    
+    ):
         display(display),
-        index(0)
-    {}
+        start(start),
+        end(end)
+    {   
+        display.clear();
+        display.flush();
+    }
 
-    bool replace( const hwlib::string<16> s, int index_change );
-    void write();
-    void add( const hwlib::string<16> s );
     void clear();
-
+    void flush();
+    void write8x8( const hwlib::string<50> text );
+    void write16x16( const hwlib::string<30> text );
 };
 
 #endif /* TERMINAL_HPP */
