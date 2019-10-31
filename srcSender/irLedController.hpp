@@ -67,7 +67,7 @@ private:
 
         for(;;){
             auto message = uintChannel.read();
-            write(ID); 
+            write(message); 
         }
     }
 
