@@ -40,6 +40,8 @@ private:
         hwlib::wait_us(800);
     }
 
+
+
     void write(const uint16_t & message){
 
         sendOne();
@@ -58,7 +60,11 @@ private:
         }
     }
 
+public:
 
+    void writeChannel(const uint16_t & message){
+        uintChannel.write(message);
+    }
 
 
     void main() override {

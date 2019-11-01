@@ -3,7 +3,6 @@
 
 #include "irInterface.hpp"
 
-#include "bitHelper.hpp"
 
 enum class msg_decoder_state {
     idle,

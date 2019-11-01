@@ -12,11 +12,11 @@
 SOURCES := runGame.cpp
 
 # header files in this project
-HEADERS := runGame.hpp gameParameters.hpp irLed.hpp irLedController.hpp
+HEADERS := runGame.hpp gameParameters.hpp 
 
 # other places to look for files for this project
 SEARCH  := 
 
 # set RELATIVE to the next higher directory and defer to the Makefile.due
 RELATIVE := $(RELATIVE)../
-include $(RELATIVE)Makefile.due
+include $(RELATIVE)MakefileACM.due

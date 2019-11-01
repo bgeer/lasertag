@@ -3,64 +3,70 @@
 
 #include "rtos.hpp"
 #include "gameParameters.hpp"
-#include "irLedController.hpp"
+
+#include "../srcSender/irLedController.hpp"
+#include "../srcReciever/irReciever.hpp"
 
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, hit, shoot};
 
-class runGame : public rtos::task<>{
+class runGame : public rtos::task<>, public msg_listener{
 
 private:
 
     runGameState state = runGameState::waiting;
     int nMesseges = 0;
     gameParameters parameters;
+    rtos::channel<uint32_t, 10> messages;
 
-
-    uint32_t dubblemessage = 0b10100000010010101010000001001010; //playerID en gameTime     tijdelijk test bericht
-    uint16_t message = dubblemessage;                                                     //tijdelijk test bericht
+    uint32_t dubbleMessage = 0b10100000010010101010000001001010; //playerID en gameTime     tijdelijk test bericht
+    uint16_t message = dubbleMessage;                                                     //tijdelijk test bericht
 
     irLedSender & sender;
 
 
-    rtos::flag trigger;
+    rtos::flag triggerFlag;
 
 public:
     runGame(irLedSender& sender): 
-    sender(sender)
+    task("Rungame"),
+    messages(this, "messages" ),
+    sender(sender),
+    triggerFlag(this, "vlag")
     {}
     
     void printUint16_t(const uint16_t & message);
     bool checksumMessage(const uint32_t & message);
     bool checkStartrBit(const uint16_t & message);
     bool checkXorMessage(const uint16_t & message);
-    bool getbit(int index, const uint32_t & byte);
 
     int get1to5(const uint16_t & message);
     int get6to10(const uint16_t & message);
     int get1to3(const uint16_t & message);
     int get4to10(const uint16_t & message);
     void setTriggerFlag();
-    void makeShootMessage();
-
-
+    uint16_t makeShootMessage();
+    void msg_received(uint32_t msg) override {messages.write(msg);}
     void main(){
         // uint16_t test = 0b1100010000010001;
         // hwlib::cout<<getCountdown(test)<<hwlib::endl;
         for(;;){
             switch(state){
                 case runGameState::waiting:{
-                    if(msgDecoder.messages){
-                        uint32_t message = msgDecoder.messages.read();
+
+                    auto events = wait(messages + triggerFlag);
+            
+                    if(events == messages){
+                        dubbleMessage = messages.read();
                         state = runGameState::checkMessage;
                         break;
                     }
-                    if(trigger){
+                    if(events == triggerFlag){
                         state = runGameState::shoot;
                         break;
                     }
                 }
                 case runGameState::checkMessage:{
-                    if( !(checksumMessage(dubblemessage)) ){
+                    if( !(checksumMessage(dubbleMessage)) ){
                         state = runGameState::waiting;
                         hwlib::cout<<"checksum\n";
                         break;
@@ -118,13 +124,15 @@ public:
                     break;
                 }
                 case runGameState::shoot:{
-                    uintchannel.write( parameters.getShootdata() );
+                    sender.writeChannel( parameters.getShootdata() );
                     state = runGameState::waiting;
                     break;
                 }
             }
         }
     }
+
+    
 };
 
 #endif

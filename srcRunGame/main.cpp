@@ -1,7 +1,9 @@
 #include "runGame.hpp"
 #include "rtos.hpp"
-#include "irLedController.hpp"
-#include "irReciever.hpp"
+
+#include "../srcSender/irLedController.hpp"
+#include "../srcSender/irLed.hpp"
+#include "../srcReciever/irReciever.hpp"
 
 
 int main(){
@@ -15,16 +17,20 @@ int main(){
     receiverGnd.flush();
     receiverVdd.flush();
 
+
+
+
     auto irLedGnd    = hwlib::target::pin_out( hwlib::target::pins::d3 );
     irLedGnd.write(0);
     irLedGnd.flush();
-    irLed irOutput();
-    irLedSender senderTask(irOutput);
-    runGame player101(senderTask);
+    auto ir = irLed();
+    auto senderTask = irLedSender(ir);
+    runGame player(senderTask);
+    
+    
+    auto decoderTask = msg_decoder(player);
+    auto detectorTask = pause_detector(decoderTask, receiverInput);
 
-    // auto logger = msg_logger();
-    // auto decoder = msg_decoder(logger);
-    // auto detector = pause_detector(decoder, receiverInput);
     rtos::run();
 
     //hwlib::cout<<player101.checkMessage()<<hwlib::endl;
