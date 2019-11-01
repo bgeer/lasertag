@@ -6,8 +6,7 @@
 
 #include "irLed.hpp"
 #include <rtos.hpp>
-
-#include "../srcReciever/bitHelper.hpp"
+#include "bitHelper.hpp"
 
 class irLedSender : public rtos::task<>{
 
@@ -42,15 +41,15 @@ private:
     }
 
     void write(const uint16_t & message){
-        auto p_message = message;
-        encode(p_message);
+        auto encodedMessage = message;
+        encode(encodedMessage);
         sendOne();
         hwlib::wait_us(3500);
         
         for(int j = 0; j < 2; j++){
 
             for(int i = 15; i > -1; i--){
-                if (1 & (message >> i)) {
+                if (1 & (encodedMessage >> i)) {
                     sendOne();
                 } else {
                     sendZero();
