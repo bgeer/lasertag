@@ -1,17 +1,18 @@
 #ifndef TRIGGER_HPP
 #define TRIGGER_HPP
 
-#include "hwlib.hpp"
-#include "runGame.hpp"
+#include "rtos.hpp"
+#include "../srcRunGame/runGame.hpp"
 
-class trigger{
+class trigger : public rtos::task<>{
 private:
     runGame &game;
-    hwlib::pin_in &button;
+    hwlib::target::pin_in button = hwlib::target::pins::d5;
 
 public:
-    trigger(runGame &game, hwlib::pin_in &button):
-    game(game), button(button)
+    trigger(runGame &game):
+    task("Trigger Input")
+    game(game)
     {}
 
 
