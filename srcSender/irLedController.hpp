@@ -70,8 +70,12 @@ public:
     void main() override {
 
         for(;;){
-            auto message = uintChannel.read();
-            write(message); 
+            auto event = wait(uintChannel);
+            if (event == uintChannel){
+                auto message = uintChannel.read();
+                write(message); 
+            }
+            hwlib::wait_ms(30);
         }
     }
 

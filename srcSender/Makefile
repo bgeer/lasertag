@@ -12,7 +12,7 @@
 SOURCES := 
 
 # header files in this project
-HEADERS := irLed.hpp irLedController.hpp idle.hpp main.cpp ../lasertag/srcReciever/bithelper.hpp
+HEADERS := irLed.hpp irLedController.hpp idle.hpp main.cpp 
 
 # other places to look for files for this project
 SEARCH  := 
