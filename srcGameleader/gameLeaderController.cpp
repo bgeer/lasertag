@@ -2,7 +2,7 @@
 #include "bitHelper.hpp"
 
 uint16_t gameLeaderController::makedata( uint8_t valueL, uint8_t valueR, int sizeL ) {
-    uint16_t data = 0x00;
+    uint16_t data = 0x8000;
 
     for (int i = sizeL - 1; i >= 0; i--) {
         bool bit = (valueL & (1 << i));
