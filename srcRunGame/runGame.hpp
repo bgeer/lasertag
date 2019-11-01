@@ -5,7 +5,7 @@
 #include "gameParameters.hpp"
 
 enum class runGameState{
-    waitForMessage, hitOrData, saveData
+    waitForMessage, hitOrData, saveData, hit
 };
 
 class runGame{
@@ -36,7 +36,7 @@ public:
 
     void main(){
         uint16_t test = 0b1100010000010001;
-        hwlib::cout<<getCountdown(test)<<hwlib::endl;
+        hwlib::cout<<get4to10(test)<<hwlib::endl;
         //for(;;){
             switch(state){
             
@@ -89,8 +89,8 @@ public:
                 }
                 case runGameState::hit:{
                     parameters.newHit( get1to5(message) ); //get enemy ID
-                    tempWp = get6to10(message); //get enemy wp
-                    setHitpoits( getHitpoints()-tempWp ) //update hp, current hp - enemy wp
+                    int tempWp = get6to10(message); //get enemy wp
+                    parameters.setHitpoits(parameters.getHitpoints()-tempWp); //update hp, current hp - enemy wp
                     //update hp op scherm
                     state = runGameState::waitForMessage;
                     break;
