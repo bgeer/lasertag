@@ -30,7 +30,7 @@ int main(){
     
     auto decoderTask = msg_decoder(player);
     auto detectorTask = pause_detector(decoderTask, receiverInput);
-    auto triggerTask = trigger(player)
+    auto triggerTask = trigger(player);
 
     rtos::run();
 
