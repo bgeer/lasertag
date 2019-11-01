@@ -1,5 +1,8 @@
 #include "hwlib.hpp"
 #include "terminal.hpp"
+#include "gameLeaderController.hpp"
+#include "/home/daanzvw/LazerGameProject/lasertag/srcSender/irLedController.hpp"
+#include "gameLeaderController.hpp"
 
 
 int main( void ){
@@ -34,15 +37,28 @@ int main( void ){
    auto keypad   = hwlib::keypad< 16 >( matrix, "123A456B789C*0#D" );
 
    // Make terminal
-   auto start = hwlib::xy(0,0);
-   auto end = hwlib::xy(128, 32);
-   auto oled_terminal = terminal(oled,start,end); 
-   hwlib::string<10> text = "Hallo Daan";
-   oled_terminal.write8x8(text);
-   oled_terminal.flush();  
+   auto start1 = hwlib::xy(0,0);
+   auto end1 = hwlib::xy(128, 32);
+   auto oled_terminal1 = terminal(oled,start1,end1); 
 
-   start = start + hwlib::xy(0, 32);
-   end = end + hwlib::xy(0, 32);
-   text = "Hallo\nDaan";
-   oled_terminal.write16x16( text );
+   auto start2 = hwlib::xy(0,32);
+   auto end2 = hwlib::xy(128, 64);
+   auto oled_terminal2 = terminal(oled,start2,end2); 
+
+   //oled_terminal1.writethings();
+
+   auto ir  = irLed();
+   auto sender = irLedSender(ir);
+
+   auto gameleadercontroller = gameLeaderController(sender, oled_terminal1, oled_terminal2, keypad);
+   gameleadercontroller.playerconfig();
+   
+   // hwlib::string<10> text = "Hallo Daan";
+   // oled_terminal.write8x8(text);
+   // oled_terminal.flush();  
+
+   // start = start + hwlib::xy(0, 32);
+   // end = end + hwlib::xy(0, 32);
+   // text = "Hallo\nDaan";
+   // oled_terminal.write16x16( text );   
 }

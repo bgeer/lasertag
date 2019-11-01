@@ -9,13 +9,13 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := terminal.cpp 
+SOURCES := terminal.cpp gameLeaderController.cpp
 
 # header files in this project
-HEADERS := terminal.hpp 
+HEADERS := terminal.hpp gameLeaderController.hpp bitHelper.hpp 
 
 # other places to look for files for this project
-SEARCH  := 
+SEARCH  := #./../lasertag/srcSender/
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there

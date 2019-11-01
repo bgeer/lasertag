@@ -3,7 +3,6 @@
 
 #include "hwlib.hpp"
 
-
 class terminal {
 private:
 
@@ -28,8 +27,8 @@ public:
 
     void clear();
     void flush();
-    void write8x8( const hwlib::string<50> text );
-    void write16x16( const hwlib::string<30> text );
+    void write8x8( const char text[] );
+    void write16x16( const char text[] );    
 };
 
 #endif /* TERMINAL_HPP */

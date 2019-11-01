@@ -24,10 +24,11 @@ void printBit(const uint16_t & byte){
 }
 
 //Encode to ir protocol
-void encode(uint16_t & message){
+uint16_t encode(uint16_t message){
     for(int i = 1; i < 6; i++){
         setbit(9 + i, message, (getbit(i, message) ^ getbit(i+5, message)));
     }
+    return message;
 }
 
 //Check if bit came as a whole
