@@ -14,6 +14,7 @@ private:
     int startTime = 0; //over hoelang het spel start in secondes
     int hitpoits = 100;
     playerHitData enemyHits[31] = {};
+    uint16_t shootData = 0;
 
 public:
     gameParameters(){}
@@ -62,6 +63,14 @@ public:
 
     int gethit(uint8_t enemyNr){
         return enemyHits[enemyNr].hits;
+    }
+
+    void setShootData(uint16_t newData){
+        shootData = newData;
+    }
+
+    uint16_t getShootdata(){
+        return shootData;
     }
 };
 
