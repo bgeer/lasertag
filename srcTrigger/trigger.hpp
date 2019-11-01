@@ -22,6 +22,7 @@ public:
             button.refresh();
             if(button.read()){
                 game.setTriggerFlag();
+                hwlib::wait_ms(1000); //shoot delay, should be wapen power
             }
         }
     }

@@ -85,13 +85,13 @@ public:
                     break;
                 }
                 case runGameState::hitOrData:{
-                    hwlib::cout<<"hitOrData";
+                    //hwlib::cout<<"hitOrData";
                     if(nMesseges < 2){
                         state = runGameState::saveData;
                         nMesseges++;
                         break;
                     }else{
-                        //state = runGameState::hit;
+                        state = runGameState::hit;
                         break;
                     }
                 }
