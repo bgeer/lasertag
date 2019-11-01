@@ -11,7 +11,7 @@ private:
 
 public:
     trigger(runGame &game):
-    task("Trigger Input")
+    task("Trigger Input"),
     game(game)
     {}
 
