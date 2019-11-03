@@ -7,7 +7,7 @@
 #include "../srcSender/irLedController.hpp"
 #include "../srcReciever/irReciever.hpp"
 
-enum class runGameState{waiting, checkMessage, hitOrData, saveData, hit, shoot};
+enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, shoot};
 
 class runGame : public rtos::task<>, public msg_listener{
 
@@ -99,30 +99,41 @@ public:
                     hwlib::cout<<"saveData\n";
                     if(nMesseges == 1){
                         parameters.setPlayerNr( get1to5(message) ); //get player ID
-                        //hwlib::cout<<parameters.getPlayerNr()<<hwlib::endl;
                         parameters.setGameTime( get6to10(message) ); //get game time
-                        //hwlib::cout<<parameters.getGameTime()<<hwlib::endl;
+                        state = runGameState::waiting;
                         break;
                     }else{
                         parameters.setWapenPower( get1to3(message) ); //get Wapen Power
-                        //hwlib::cout<<get1to3(message)<<hwlib::endl;
                         parameters.setStartTime( get4to10(message) ); //get start time
-                        //hwlib::cout<<get4to10(message)<<hwlib::endl;
 
                         parameters.setShootData( makeShootMessage() ); //make and save the shoot message
 
+                        state = runGameState::countDown;
+                        break;
+                    }
+                }
+                case runGameState::countDown:{
+                    if(parameters.getStartTime() == 0){
                         state = runGameState::waiting;
                         break;
                     }
+                    parameters.setStartTime( parameters.getStartTime()-1);
+                    //update start time on oled
+                    hwlib::wait_ms(1000);
+                    break;
                 }
                 case runGameState::hit:{
                     parameters.newHit( get1to5(message) ); //get enemy ID
                     int tempWp = get6to10(message); //get enemy wp
                     parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
-                    //update hp op scherm
+                    //update hp on oled
                     state = runGameState::waiting;
                     break;
                 }
+
+
+
+
                 case runGameState::shoot:{
                     sender.writeChannel( parameters.getShootdata() );
                     state = runGameState::waiting;
