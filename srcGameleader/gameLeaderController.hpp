@@ -14,8 +14,13 @@
 class gameLeaderController : public rtos::task<> {
 private:
 
-    enum class gameLeaderStates {SHOW_BEGIN, IDLE, CONFIG_PLAYERS /*SEND_CONFIG*/};
+    rtos::clock oneSecondClock;
+
+    enum class gameLeaderStates {SHOW_BEGIN, IDLE, CONFIG_PLAYERS, SEND_CONFIG};
     gameLeaderStates state;
+
+    char playerPower[31];
+    unsigned int playerIndex = 0;
 
     irLedSender &sender;
     terminal &screen1;
@@ -33,6 +38,7 @@ public:
         hwlib::keypad<16> &matrix
     ):
         task("gameLeaderController"),
+        oneSecondClock( this, 1'000, "oneSecondClock" ),
         sender( sender ),
         screen1( screen1 ),
         screen2( screen2 ),
