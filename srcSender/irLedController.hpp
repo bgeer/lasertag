@@ -69,13 +69,10 @@ public:
 
     void main() override {
 
+
         for(;;){
-            auto event = wait(uintChannel);
-            if (event == uintChannel){
-                auto message = uintChannel.read();
-                write(message); 
-            }
-            hwlib::wait_ms(30);
+            auto message = uintChannel.read();
+            write(message); 
         }
     }
 

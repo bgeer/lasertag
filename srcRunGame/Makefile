@@ -12,7 +12,7 @@
 SOURCES := runGame.cpp
 
 # header files in this project
-HEADERS := runGame.hpp gameParameters.hpp 
+HEADERS := runGame.hpp gameParameters.hpp gameTimer.hpp
 
 # other places to look for files for this project
 SEARCH  := 

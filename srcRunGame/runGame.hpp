@@ -29,22 +29,20 @@ private:
     uint16_t message = doubleMessage;                                                  
 
     //waitables
-    rtos::clock secondClock;
     rtos::flag triggerFlag;
-    rtos::flag oledFlag;
     rtos::channel<uint32_t, 10> messages;
 
-    gameTimer gameDuration(parameters, oledFlag);
-
+    gameTimer gameDuration;
+    bool oledUpdate = true;
 
 public:
-    runGame(irLedSender& sender): 
+
+    runGame(irLedSender & sender): 
     task("Rungame"),
     sender(sender),
-    secondClock(this, "Second Pulse Clock"),
     triggerFlag(this, "Trigger Flag"),
-    oledFlag(this, "Oled Flag"),
-    messages(this, "messages")
+    messages(this, "messages"),
+    gameDuration(parameters, oledUpdate)
     {}
     
     void printUint16_t(const uint16_t & message);
@@ -65,11 +63,10 @@ public:
     void main(){
         for(;;){
             switch(state){
-                case runGameState::waiting:
+                case runGameState::waiting: {
 
-                    auto events = wait(messages + triggerFlag + oledFlag);
+                    auto events = wait(messages + triggerFlag);
             
-                    if (paramters.)
                     if(events == messages){
                         doubleMessage = messages.read();
                         state = runGameState::checkMessage;
@@ -79,11 +76,15 @@ public:
                         state = runGameState::shoot;
                         break;
                     }
-                    if(events == oledFlag){
+                    if(oledUpdate){
                         //update
+                        oledUpdate = false;
+                        break;
                     }
-                
-                case runGameState::checkMessage:
+                    break;
+                }
+
+                case runGameState::checkMessage: {
                     if( !(checksumMessage(doubleMessage)) ){
                         state = runGameState::waiting;;
                         break;
@@ -98,18 +99,20 @@ public:
                     }
                     state = runGameState::hitOrData;
                     break;
+                }
                 
-                case runGameState::hitOrData:
+                case runGameState::hitOrData: {
                     if(nMessages < 2){
                         state = runGameState::saveData;
-                        nMesseges++;
+                        nMessages++;
                         break;
                     }else{
                         state = runGameState::hit;
                         break;
                     }
+                }
                 
-                case runGameState::saveData:
+                case runGameState::saveData: {
                     hwlib::cout<<"saveData\n";
                     if(nMessages == 1){
                         parameters.setPlayerNr( get1to5(message) ); //get player ID
@@ -124,8 +127,9 @@ public:
                         state = runGameState::countDown;
                         break;
                     }
+                }
                 
-                case runGameState::countDown:
+                case runGameState::countDown: {
                     if(parameters.getStartTime() == 0){
                         state = runGameState::waiting;
                         //update oled
@@ -136,24 +140,28 @@ public:
                     //update start time on oled
                     hwlib::wait_ms(1000);
                     break;
+                    }
                 }
-                case runGameState::hit:
+                case runGameState::hit: {
                     parameters.newHit( get1to5(message) ); //get enemy ID
                     int tempWp = get6to10(message); //get enemy wp
                     parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
                     //update hp on oled
                     state = runGameState::waiting;
                     break;
+                }
                 
-                case runGameState::shoot:
+                case runGameState::shoot: {
                     sender.writeChannel( parameters.getShootdata() );
                     state = runGameState::waiting;
                     break;
+                }
                 
 
-                case runGameState::gameOver:
+                case runGameState::gameOver: {
                     //oled game over
                     //
+                }
             }
         }
     }
