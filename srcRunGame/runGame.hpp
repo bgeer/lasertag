@@ -3,6 +3,7 @@
 
 #include "rtos.hpp"
 #include "gameParameters.hpp"
+#include "gameTimer.hpp"
 
 #include "../srcSender/irLedController.hpp"
 #include "../srcReciever/irReciever.hpp"
@@ -18,6 +19,7 @@ private:
     //boundary object
     irLedSender & sender;
     gameParameters parameters;
+    
     //oled
     //buzzer
 
@@ -29,7 +31,10 @@ private:
     //waitables
     rtos::clock secondClock;
     rtos::flag triggerFlag;
+    rtos::flag oledFlag;
     rtos::channel<uint32_t, 10> messages;
+
+    gameTimer gameDuration(parameters, oledFlag);
 
 
 public:
@@ -38,6 +43,7 @@ public:
     sender(sender),
     secondClock(this, "Second Pulse Clock"),
     triggerFlag(this, "Trigger Flag"),
+    oledFlag(this, "Oled Flag"),
     messages(this, "messages")
     {}
     
@@ -61,7 +67,7 @@ public:
             switch(state){
                 case runGameState::waiting:
 
-                    auto events = wait(messages + triggerFlag);
+                    auto events = wait(messages + triggerFlag + oledFlag);
             
                     if (paramters.)
                     if(events == messages){
@@ -72,6 +78,9 @@ public:
                     if(events == triggerFlag){
                         state = runGameState::shoot;
                         break;
+                    }
+                    if(events == oledFlag){
+                        //update
                     }
                 
                 case runGameState::checkMessage:
@@ -120,7 +129,7 @@ public:
                     if(parameters.getStartTime() == 0){
                         state = runGameState::waiting;
                         //update oled
-                        gameTimer.set(parameters.)
+                        gameDuration.start();
                         break;
                     
                     parameters.setStartTime( parameters.getStartTime()-1);
@@ -142,7 +151,9 @@ public:
                     break;
                 
 
-                case runGameState::gameOver: 
+                case runGameState::gameOver:
+                    //oled game over
+                    //
             }
         }
     }
