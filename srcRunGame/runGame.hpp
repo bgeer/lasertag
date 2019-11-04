@@ -7,6 +7,7 @@
 
 #include "../srcSender/irLedController.hpp"
 #include "../srcReciever/irReciever.hpp"
+#include "../srcOledController/oledController.hpp"
 
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, shoot, gameOver};
 
@@ -16,10 +17,11 @@ private:
     //states
     runGameState state = runGameState::waiting;
     
-    //boundary object
+    //boundary objects
     irLedSender & sender;
     gameParameters parameters;
-    
+    oledController & oled;
+
     //oled
     //buzzer
 
@@ -37,9 +39,10 @@ private:
 
 public:
 
-    runGame(irLedSender & sender): 
+    runGame(irLedSender & sender, oledController & oled): 
     task("Rungame"),
     sender(sender),
+    oled(oled),
     triggerFlag(this, "Trigger Flag"),
     messages(this, "messages"),
     gameDuration(parameters, oledUpdate)
@@ -78,6 +81,9 @@ public:
                     }
                     if(oledUpdate){
                         //update
+                        oled.clear();
+                        oled.drawGameCountdown(1 );
+                        oled.flush();
                         oledUpdate = false;
                         break;
                     }

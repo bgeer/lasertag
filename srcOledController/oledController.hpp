@@ -5,17 +5,17 @@
 
 class oledController{
 private:
-    hwlib::window &oled;
-    hwlib::terminal_from &playerPart;
-    hwlib::terminal_from &scoreTimePart;
-    hwlib::terminal_from &fullScreen;
+    hwlib::window & oled;
+    hwlib::terminal_from & playerPart;
+    hwlib::terminal_from & scoreTimePart;
+    hwlib::terminal_from & fullScreen;
 
 public:
     oledController(
-    hwlib::window &oled, 
-    hwlib::terminal_from &playerPart,
-    hwlib::terminal_from &scoreTimePart,
-    hwlib::terminal_from &fullScreen):
+    hwlib::window & oled, 
+    hwlib::terminal_from & playerPart,
+    hwlib::terminal_from & scoreTimePart,
+    hwlib::terminal_from & fullScreen):
     oled(oled),
     playerPart(playerPart),
     scoreTimePart(scoreTimePart),
