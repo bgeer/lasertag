@@ -1,5 +1,6 @@
 #include "irLedController.hpp"
-#include "../srcReciever/irReciever.hpp"
+#include "testDummy.hpp"
+
 int main(){
 
     hwlib::wait_ms(1000);
@@ -16,9 +17,11 @@ int main(){
     tsop_gnd.flush();
     auto ir = irLed();
     auto sender = irLedSender(ir);
-    auto logger = msg_logger();
-    auto decoder = msg_decoder(logger);
-    auto detector = pause_detector(decoder, input);
+    auto dummy = testDummy(sender);
+
+
+    (void) sender;
+    (void) dummy;
     rtos::run();
 
 

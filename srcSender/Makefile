@@ -12,7 +12,7 @@
 SOURCES := 
 
 # header files in this project
-HEADERS := irLed.hpp irLedController.hpp idle.hpp main.cpp 
+HEADERS := irLed.hpp irLedController.hpp idle.hpp main.cpp testDummy.hpp
 
 # other places to look for files for this project
 SEARCH  := 

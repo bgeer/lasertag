@@ -69,5 +69,9 @@ int main(){
     auto detectorTask = pause_detector(decoderTask, receiverInput);
     auto triggerTask = trigger(player);
 
+    (void) decoderTask;
+    (void) detectorTask;
+    (void) triggerTask;
+
     rtos::run();
 }

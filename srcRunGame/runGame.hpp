@@ -15,7 +15,7 @@ class runGame : public rtos::task<>, public msg_listener{
 
 private:
     //states
-    runGameState state = runGameState::waiting;
+    
     
     //boundary objects
     irLedSender & sender;
@@ -64,12 +64,13 @@ public:
     void msg_received(uint32_t msg) override {messages.write(msg);}
     
     void main(){
+        runGameState state = runGameState::waiting;
         for(;;){
             switch(state){
                 case runGameState::waiting: {
 
                     auto events = wait(messages + triggerFlag);
-            
+                    hwlib::cout << parameters.getGameTime();
                     if(events == messages){
                         doubleMessage = messages.read();
                         state = runGameState::checkMessage;
@@ -80,10 +81,10 @@ public:
                         break;
                     }
                     if(oledUpdate){
-                        //update
-                        oled.clear();
-                        oled.drawGameCountdown(1 );
-                        oled.flush();
+                        // update
+                        // oled.clear();
+                        // oled.drawGameCountdown(1 );
+                        // oled.flush();
                         oledUpdate = false;
                         break;
                     }
@@ -93,14 +94,17 @@ public:
                 case runGameState::checkMessage: {
                     if( !(checksumMessage(doubleMessage)) ){
                         state = runGameState::waiting;;
+                        hwlib::cout << "test 1 failed\n";
                         break;
                     }
                     else if( !(checkStartrBit(message)) ){
                         state = runGameState::waiting;
+                        hwlib::cout << " test 2 failed\n";
                         break;
                     }
                     else if( !(checkXorMessage(message)) ){
                         state = runGameState::waiting;
+                        hwlib::cout << " test 3 failed\n";
                         break;
                     }
                     state = runGameState::hitOrData;

@@ -23,11 +23,13 @@ public:
 
     void main(){
         for(;;){
+            wait(oneSecondClock);
+            oledUpdate = true;
             if (startGame && parameters.getGameTime() > 0){
-                wait(oneSecondClock);
                 parameters.setGameTime(parameters.getGameTime() - 1);
-                oledUpdate = true;
+  
             }
+            
         }
         hwlib::wait_ms(10);
 

@@ -5,8 +5,6 @@
 //0     1       2       3       4       5        6       7       8       9       10       11      12      13      14      15
 //start (       player id               )    |   (       wapen power             )    |   xor 1,6 xor 2,7 xor 3,8 xor 4,9 xor 5,10
 
-#ifndef BIT_HELPER_HPP
-#define BIT_HELPER_HPP
 
 #include "hwlib.hpp"
 
@@ -49,7 +47,6 @@ bool check(const uint16_t & message){
 }
 
 
-#endif
 
 void runGame::printUint16_t(const __uint16_t & message){
     hwlib::cout<<"Byte: ";
@@ -64,7 +61,7 @@ void runGame::printUint16_t(const __uint16_t & message){
 
 bool runGame::checksumMessage(const uint32_t & message){
     for(int i = 0; i < 16; i++){
-        if( !(getbit(i, message) == getbit(i+16, message)) ){
+        if( !(getbit(i, uint16_t(message)) == getbit(i, uint16_t(message >> 16)))){
             return false;
         }
     }
@@ -72,8 +69,10 @@ bool runGame::checksumMessage(const uint32_t & message){
 }
 
 bool runGame::checkStartrBit(const uint16_t & message){
-    uint16_t temp = (message & (1<<15));
-    return getbit(16, temp);
+    // uint16_t temp = (message & (1<<15));
+    // return getbit(16, temp);
+    //
+    return 1;
 }
 
 //check the xor checksum
