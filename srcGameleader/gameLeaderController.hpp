@@ -6,16 +6,14 @@
 #include "rtos.hpp"
 #include "hwlib.hpp"
 #include "terminal.hpp"
+#include "duration.hpp"
 #include "/home/daanzvw/LazerGameProject/lasertag/srcSender/irLedController.hpp"
 
-#define ever ;;
+// #define ever ;;
 
 
 class gameLeaderController : public rtos::task<> {
 private:
-
-    rtos::clock oneSecondClock;
-
     enum class gameLeaderStates {SHOW_BEGIN, IDLE, CONFIG_PLAYERS, SEND_CONFIG};
     gameLeaderStates state;
 
@@ -27,6 +25,9 @@ private:
     terminal &screen2;
     hwlib::keypad<16> &matrix;
 
+    duration &clock;
+    gameTimeEntity &time;
+
     uint16_t makedata( uint8_t valueL, uint8_t valueR, int sizeL );
 
 public:
@@ -35,23 +36,20 @@ public:
         irLedSender &sender,
         terminal &screen1,
         terminal &screen2,
-        hwlib::keypad<16> &matrix
+        hwlib::keypad<16> &matrix,
+        duration &clock,
+        gameTimeEntity &time
     ):
         task("gameLeaderController"),
-        oneSecondClock( this, 1'000, "oneSecondClock" ),
         sender( sender ),
         screen1( screen1 ),
         screen2( screen2 ),
-        matrix( matrix )
+        matrix( matrix ),
+        clock( clock ),
+        time( time )
     {}
 
-    void playerconfig();
-
-    void main () {
-        for (ever){
-            hwlib::wait_us(0);
-        }
-    } 
+    void main(); 
 
 };
 

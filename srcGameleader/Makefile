@@ -12,7 +12,7 @@
 SOURCES := terminal.cpp gameLeaderController.cpp
 
 # header files in this project
-HEADERS := terminal.hpp gameLeaderController.hpp bitHelper.hpp 
+HEADERS := terminal.hpp gameLeaderController.hpp bitHelper.hpp duration.hpp gameTimeEntity.hpp
 
 # other places to look for files for this project
 SEARCH  := #./../lasertag/srcSender/

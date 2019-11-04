@@ -1,6 +1,8 @@
 #include "hwlib.hpp"
 #include "terminal.hpp"
 #include "gameLeaderController.hpp"
+#include "duration.hpp"
+#include "gameTimeEntity.hpp"
 #include "/home/daanzvw/LazerGameProject/lasertag/srcSender/irLedController.hpp"
 #include "gameLeaderController.hpp"
 
@@ -48,10 +50,18 @@ int main( void ){
    //oled_terminal1.writethings();
 
    auto ir  = irLed();
-   auto sender = irLedSender(ir);
+   auto senderTask = irLedSender(ir);
 
-   auto gameleadercontroller = gameLeaderController(sender, oled_terminal1, oled_terminal2, keypad);
-   gameleadercontroller.playerconfig();
+   auto gameTime = gameTimeEntity();
+
+   auto durationTask = duration(gameTime);
+   auto gameLeaderControllerTask = gameLeaderController(senderTask, oled_terminal1, oled_terminal2, keypad, durationTask, gameTime);
+
+   (void) gameLeaderControllerTask;
+   (void) senderTask;
+   (void) durationTask;
+
+   rtos::run();
    
    // hwlib::string<10> text = "Hallo Daan";
    // oled_terminal.write8x8(text);
