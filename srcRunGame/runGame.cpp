@@ -8,7 +8,7 @@
 
 //van rechts naar links (little Endian)
 bool getbit(uint8_t index, const uint16_t & byte){
-    return (byte & (1 << (index - 1)));
+    return (byte & (1 << (index)));
 }
 
 //set bit to a bool
@@ -69,13 +69,15 @@ bool runGame::checksumMessage(const uint32_t & message){
 
 bool runGame::checkStartrBit(const uint16_t & message){
     uint16_t temp = (message & (1<<15));
-    return getbit(16, temp);
+    return getbit(15, temp);
 }
 
 //check the xor checksum
 bool runGame::checkXorMessage(const uint16_t & message){
     for(int i = 4; i >= 0; i--){
         if (getbit(i, message) != bool(getbit(i+10, message) ^ getbit(i+5, message))){
+            hwlib::cout<<i<<"\n";
+            hwlib::cout<<getbit(i, message)<<" "<<getbit(i+10, message)<<" "<<getbit(i+5, message)<<"\n";
             return false;
         }
     }
@@ -103,7 +105,7 @@ int runGame::get1to3(const uint16_t & message){
 int runGame::get4to10(const uint16_t & message){
     int countdown = message & 4064; //111111100000
     //runGame::printUint16_t(countdown);
-    countdown = countdown >> 4;
+    countdown = countdown >> 5;
     //runGame::printUint16_t(countdown);
     return countdown;
 }
