@@ -46,9 +46,9 @@ bool check(const uint16_t & message){
 
 
 
-void runGame::printUint16_t(const __uint32_t & message){
+void runGame::printUint16_t(const __uint16_t & message){
     hwlib::cout<<"Byte: ";
-    for(int i = 31; i >= 0; i--){
+    for(int i = 15; i >= 0; i--){
         hwlib::cout<<((message & (1<<i)) !=0);
     }
     hwlib::cout<<'\n';
@@ -102,9 +102,9 @@ int runGame::get1to3(const uint16_t & message){
 
 int runGame::get4to10(const uint16_t & message){
     int countdown = message & 4064; //111111100000
-    runGame::printUint16_t(countdown);
+    //runGame::printUint16_t(countdown);
     countdown = countdown >> 4;
-    runGame::printUint16_t(countdown);
+    //runGame::printUint16_t(countdown);
     return countdown;
 }
 

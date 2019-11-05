@@ -21,6 +21,7 @@ public:
             hwlib::wait_ms(10);
             button.refresh();
             if(button.read()){
+                hwlib::cout<<"trigger\n";
                 game.setTriggerFlag();
                 hwlib::wait_ms(1000); //shoot delay, should be wapen power
             }

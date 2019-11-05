@@ -26,12 +26,11 @@ public:
     void main(){
         for(;;){
             wait(oneSecondClock);
-            oledUpdateFlag.set();
             if (startGame && parameters.getGameTime() > 0){
+                oledUpdateFlag.set();
                 parameters.setGameTime(parameters.getGameTime() - 1);
   
             }else if(startGame){
-                hwlib::cout<<"time\n";
                 gameOverFlag.set();
             }
             

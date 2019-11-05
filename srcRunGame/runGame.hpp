@@ -27,7 +27,7 @@ private:
     //buzzer
 
     //Abstract values
-    int nMessages = 3;
+    int nMessages = 0;
     uint32_t doubleMessage = 0; 
     uint16_t message = doubleMessage;                                                  
 
@@ -52,7 +52,7 @@ public:
     gameDuration(parameters, oledUpdateFlag, gameOverFlag)
     {}
     
-    void printUint16_t(const uint32_t & message);
+    void printUint16_t(const uint16_t & message);
     bool checksumMessage(const uint32_t & message);
     bool checkStartrBit(const uint16_t & message);
     bool checkXorMessage(const uint16_t & message);
@@ -68,7 +68,7 @@ public:
     void msg_received(uint32_t msg) override {messages.write(msg);}
     
     void main(){
-        runGameState state = runGameState::countDown; //==================================================================
+        runGameState state = runGameState::waiting; //==================================================================
         for(;;){
             switch(state){
                 case runGameState::waiting: {
@@ -80,8 +80,11 @@ public:
                         doubleMessage = messages.read();
                         state = runGameState::checkMessage;
                         break;
+
+
                     }
                     if(events == triggerFlag){
+                        hwlib::cout << "shoot\n";
                         state = runGameState::shoot;
                         break;
                     }
@@ -101,6 +104,7 @@ public:
 
                 case runGameState::checkMessage: {
                     message = doubleMessage >> 16;
+                    printUint16_t(message);
                     if( !(checkXorMessage(message)) ){
                         state = runGameState::waiting;
                         break;
@@ -109,7 +113,7 @@ public:
                         state = runGameState::waiting;
                         break;
                     }
-                    hwlib::cout << "+\n";
+                    //hwlib::cout << "+\n";
                     state = runGameState::hitOrData;
                     break;
                 }
@@ -126,13 +130,15 @@ public:
                 }
                 
                 case runGameState::saveData: {
-                    hwlib::cout<<"saveData\n";
+                    //hwlib::cout<<"saveData\n";
                     if(nMessages == 1){
+                        hwlib::cout<<"m1\n";
                         parameters.setPlayerNr( get1to5(message) ); //get player ID
                         parameters.setGameTime( get6to10(message) * 60); //get game time
                         state = runGameState::waiting;
                         break;
                     }else{
+                        hwlib::cout<<"m2\n";
                         parameters.setWapenPower( get1to3(message) ); //get Wapen Power
                         parameters.setStartTime( get4to10(message) ); //get start time
                         parameters.setShootData( makeShootMessage() ); //make and save the shoot message
