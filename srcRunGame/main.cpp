@@ -73,6 +73,7 @@ int main(){
     (void) decoderTask;
     (void) detectorTask;
     (void) triggerTask;
+    (void) player;
 
     rtos::run();
 }

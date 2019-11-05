@@ -20,10 +20,11 @@ public:
         for(;;){
             hwlib::wait_ms(10);
             button.refresh();
+            //hwlib::cout<<"triggertask\n";
             if(button.read()){
                 hwlib::cout<<"trigger\n";
                 game.setTriggerFlag();
-                hwlib::wait_ms(1000); //shoot delay, should be wapen power
+                hwlib::wait_ms( game.getWP()*1000 ); //shoot delay, should be wapen power
             }
         }
     }

@@ -66,6 +66,10 @@ public:
     uint16_t makeShootMessage();
 
     void msg_received(uint32_t msg) override {messages.write(msg);}
+
+    int getWP(){
+        parameters.getWapenPower();
+    }
     
     void main(){
         runGameState state = runGameState::waiting; //==================================================================
@@ -187,7 +191,9 @@ public:
                 }
                 
                 case runGameState::shoot: {
-                    sender.writeChannel( parameters.getShootdata() );
+                    if( gameDuration.getStartGame_gameTimer() ){
+                        sender.writeChannel( parameters.getShootdata() );
+                    }
                     state = runGameState::waiting;
                     break;
                 }

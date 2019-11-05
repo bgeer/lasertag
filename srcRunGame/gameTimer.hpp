@@ -43,7 +43,9 @@ public:
         startGame = true;
     }
 
-
+    bool getStartGame_gameTimer(){
+        return startGame;
+    }
 
 };
 
