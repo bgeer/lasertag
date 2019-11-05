@@ -6,8 +6,13 @@
 
 #include "irLed.hpp"
 #include <rtos.hpp>
+/// @file
 
 
+/// \brief
+/// decodes message to ir Protocol and sends it out.
+/// \details
+/// 
 class irLedSender : public rtos::task<>{
 
 private:

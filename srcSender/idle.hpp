@@ -1,13 +1,15 @@
 #include <rtos.hpp>
 
+///@file
 
+/// \brief
+/// Idle task for testing tasks without getting a deadlock
 class idle : public rtos::task<> {
 
 private:
 
     int time;
     rtos::clock klock;
-    
 
 public: 
 
@@ -17,15 +19,10 @@ public:
 
 
     void main() override{
-
-
-
-        
         for(;;){
             wait(klock);
             time++;
         }
-
     }
 
 };
