@@ -35,7 +35,7 @@ class msg_decoder : public rtos::task<>, public pause_listener {
                     }
                     break;
                 case msg_decoder_state::reading:
-                    if (num_bits == 16) {
+                    if (num_bits == 32) {
                         state = msg_decoder_state::idle;
                         listener.msg_received(data);
                         

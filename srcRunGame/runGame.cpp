@@ -67,7 +67,7 @@ bool runGame::checksumMessage(const uint32_t & message){
     return true;
 }
 
-bool runGame::checkStartrBit(const uint16_t & message){
+bool runGame::checkStartBit(const uint16_t & message){
     uint16_t temp = (message & (1<<15));
     return getbit(15, temp);
 }

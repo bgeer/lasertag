@@ -24,7 +24,7 @@ public:
             for(;;){
                 hwlib::cout << (encode(testMessage3)) << "\n";
                 sender.writeChannel(encode(testMessage3));
-                hwlib::wait_ms(200);
+                hwlib::wait_ms(1000);
             }
         
     

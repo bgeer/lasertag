@@ -28,7 +28,8 @@ private:
 
     //Abstract values
     int nMessages = 0;
-    uint16_t message = 0;                                                  
+    uint16_t message = 0; 
+    uint32_t doubleMessage = 0;                                                 
 
     //waitables
     rtos::flag triggerFlag;
@@ -45,7 +46,7 @@ public:
     sender(sender),
     oled(oled),
     triggerFlag(this, "Trigger Flag"),
-    oledUpdateFlag(this, "oledUpdate falg"),
+    oledUpdateFlag(this, "oledUpdate Flag"),
     gameOverFlag(this, "game over"),
     messages(this, "messages"),
     gameDuration(parameters, oledUpdateFlag, gameOverFlag)
@@ -53,7 +54,7 @@ public:
     
     void printUint16_t(const uint16_t & message);
     bool checksumMessage(const uint32_t & message);
-    bool checkStartrBit(const uint16_t & message);
+    bool checkStartBit(const uint16_t & message);
     bool checkXorMessage(const uint16_t & message);
 
     int get1to5(const uint16_t & message);
@@ -80,11 +81,10 @@ public:
                     //hwlib::cout << parameters.getGameTime();
                     if(events == messages){
                         hwlib::cout << "message\n";
-                        message = messages.read();
+                        doubleMessage = messages.read();
+                        message = doubleMessage >> 16;
                         state = runGameState::checkMessage;
                         break;
-
-
                     }
                     if(events == triggerFlag){
                         hwlib::cout << "shoot\n";
@@ -106,14 +106,19 @@ public:
                 }
 
                 case runGameState::checkMessage: {
-
-                    printUint16_t(message);//===============cout message
+                    hwlib::cout << doubleMessage << '\n';
+                    printUint16_t(message);
+                    if( !(checksumMessage(doubleMessage))){
+                        hwlib::cout<<"checksum\n";
+                        state = runGameState::waiting;
+                        break;
+                    }
                     if( !(checkXorMessage(message)) ){
                         hwlib::cout<<"xor\n";
                         state = runGameState::waiting;
                         break;
                     }
-                    else if( !(checkStartrBit(message)) ){
+                    else if( !(checkStartBit(message)) ){
                         hwlib::cout<<"startbit\n";
                         state = runGameState::waiting;
                         break;

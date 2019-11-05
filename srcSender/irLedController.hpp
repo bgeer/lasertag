@@ -53,25 +53,37 @@ private:
         hwlib::wait_us(800);
     }
 
+
+    void endMessage(){
+        hwlib::wait_ms(1);
+        output.write(HIGH);
+        hwlib::wait_us(100);
+        output.write(LOW);
+        hwlib::wait_ms(1);
+        output.write(HIGH);
+        hwlib::wait_us(100);
+        output.write(LOW);
+    }
+
     /// \brief
     /// Parses a messages to the sendzero and sendone functions.
     /// \details
     /// Bit shifts an UINT16_t and calls the sendzero or one function depending on the value of the bit.
     void write(const uint16_t & message){
-
-        for(int j = 0; j < 2; j++){
-            
-            sendOne();
-            hwlib::wait_us(3500);
+        sendOne();
+        hwlib::wait_us(3500);
+        for(uint8_t i = 0; i < 2; i++){
+         
             for(int i = 15; i > -1; i--){
                 if (1 & (message >> i)) {
                     sendOne();
                 } else {
                     sendZero();
                 }
-            }  
-
+            } 
         }
+        endMessage();
+
     }
 
 public:
