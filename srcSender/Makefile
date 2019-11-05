@@ -20,6 +20,6 @@ SEARCH  :=
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
-include $(RELATIVE)MakefileUSB.due
+include $(RELATIVE)MakefileACM.due
 
 
