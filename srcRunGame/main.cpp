@@ -4,7 +4,7 @@
 #include "../srcSender/irLedController.hpp"
 #include "../srcSender/irLed.hpp"
 #include "../srcReciever/irReciever.hpp"
-#include "../srcOledController/oledController.hpp"
+#include "oledController.hpp"
 
 
 int main(){

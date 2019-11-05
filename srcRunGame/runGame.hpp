@@ -7,7 +7,8 @@
 
 #include "../srcSender/irLedController.hpp"
 #include "../srcReciever/irReciever.hpp"
-#include "../srcOledController/oledController.hpp"
+#include "oledController.hpp"
+
 
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, shoot, gameOver};
 
@@ -32,10 +33,10 @@ private:
 
     //waitables
     rtos::flag triggerFlag;
+    rtos::flag oledUpdateFlag;
     rtos::channel<uint32_t, 10> messages;
-
+    
     gameTimer gameDuration;
-    bool oledUpdate = true;
 
 public:
 
@@ -44,11 +45,12 @@ public:
     sender(sender),
     oled(oled),
     triggerFlag(this, "Trigger Flag"),
+    oledUpdateFlag(this, "oledUpdate falg"),
     messages(this, "messages"),
-    gameDuration(parameters, oledUpdate)
+    gameDuration(parameters, oledUpdateFlag)
     {}
     
-    void printUint16_t(const uint16_t & message);
+    void printUint16_t(const uint32_t & message);
     bool checksumMessage(const uint32_t & message);
     bool checkStartrBit(const uint16_t & message);
     bool checkXorMessage(const uint16_t & message);
@@ -69,9 +71,10 @@ public:
             switch(state){
                 case runGameState::waiting: {
 
-                    auto events = wait(messages + triggerFlag);
-                    hwlib::cout << parameters.getGameTime();
+                    auto events = wait(messages + triggerFlag + oledUpdateFlag);
+                    //hwlib::cout << parameters.getGameTime();
                     if(events == messages){
+                        hwlib::cout << "message\n";
                         doubleMessage = messages.read();
                         state = runGameState::checkMessage;
                         break;
@@ -80,12 +83,10 @@ public:
                         state = runGameState::shoot;
                         break;
                     }
-                    if(oledUpdate){
-                        // update
-                        // oled.clear();
-                        // oled.drawGameCountdown(1 );
-                        // oled.flush();
-                        oledUpdate = false;
+                    if(events == oledUpdateFlag){
+                        oled.clear();
+                        oled.drawGameCountdown( parameters.getGameTime() );
+                        oled.flush();
                         break;
                     }
                     break;
@@ -95,6 +96,7 @@ public:
                     if( !(checksumMessage(doubleMessage)) ){
                         state = runGameState::waiting;;
                         hwlib::cout << "test 1 failed\n";
+                        printUint16_t(doubleMessage);
                         break;
                     }
                     else if( !(checkStartrBit(message)) ){
@@ -107,6 +109,7 @@ public:
                         hwlib::cout << " test 3 failed\n";
                         break;
                     }
+                    hwlib::cout << "g\n";
                     state = runGameState::hitOrData;
                     break;
                 }
@@ -145,12 +148,15 @@ public:
                         //update oled
                         gameDuration.start();
                         break;
-                    
+                    }
                     parameters.setStartTime( parameters.getStartTime()-1);
                     //update start time on oled
+                    oled.clear();
+                    oled.drawGameCountdown( parameters.getStartTime() );
+                    oled.flush();
                     hwlib::wait_ms(1000);
                     break;
-                    }
+                    
                 }
                 case runGameState::hit: {
                     parameters.newHit( get1to5(message) ); //get enemy ID

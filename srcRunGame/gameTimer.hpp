@@ -10,13 +10,13 @@ class gameTimer : public rtos::task<> {
     rtos::clock oneSecondClock;
     gameParameters & parameters;
     bool startGame = false;
-    bool &oledUpdate;
+    rtos::flag & oledUpdateFlag;
 
 public:
-    gameTimer(gameParameters & parameters, bool & oledUpdate):
-        oneSecondClock(this, 1'000, "One Second Clock"),
+    gameTimer(gameParameters & parameters, rtos::flag & oledUpdateFlag):
+        oneSecondClock(this, 1'000'000, "One Second Clock"),
         parameters(parameters),
-        oledUpdate(oledUpdate)
+        oledUpdateFlag(oledUpdateFlag)
     {}
 
 
@@ -24,7 +24,7 @@ public:
     void main(){
         for(;;){
             wait(oneSecondClock);
-            oledUpdate = true;
+            oledUpdateFlag.set();
             if (startGame && parameters.getGameTime() > 0){
                 parameters.setGameTime(parameters.getGameTime() - 1);
   
