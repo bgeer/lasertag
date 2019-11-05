@@ -36,6 +36,7 @@ class msg_decoder : public rtos::task<>, public pause_listener {
                     if (num_bits == 32) {
                         state = msg_decoder_state::idle;
                         listener.msg_received(data);
+                        hwlib::cout << "message ontvangt";
                         
 
                     } else {
