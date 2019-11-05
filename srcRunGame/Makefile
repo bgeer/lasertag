@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := runGame.cpp
+SOURCES := runGame.cpp oledController.cpp
 
 # header files in this project
-HEADERS := runGame.hpp gameParameters.hpp gameTimer.hpp
+HEADERS := runGame.hpp gameParameters.hpp gameTimer.hpp oledController.hpp
 
 # other places to look for files for this project
 SEARCH  := 
