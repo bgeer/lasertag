@@ -58,11 +58,11 @@ private:
     /// \details
     /// Bit shifts an UINT16_t and calls the sendzero or one function depending on the value of the bit.
     void write(const uint16_t & message){
-        sendOne();
-        hwlib::wait_us(3500);
-        
+
         for(int j = 0; j < 2; j++){
-
+            
+            sendOne();
+            hwlib::wait_us(3500);
             for(int i = 15; i > -1; i--){
                 if (1 & (message >> i)) {
                     sendOne();
@@ -72,21 +72,6 @@ private:
             }  
 
         }
-        sendOne();
-        hwlib::wait_us(3500);
-                for(int j = 0; j < 2; j++){
-
-            for(int i = 15; i > -1; i--){
-                if (1 & (message >> i)) {
-                    sendOne();
-                } else {
-                    sendZero();
-                }
-            }  
-
-        }
-        
-
     }
 
 public:

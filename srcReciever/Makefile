@@ -24,4 +24,4 @@ DEFINES :=
 # set RELATIVE to the next higher directory
 # and defer to the appropriate Makefile.* there
 RELATIVE := ..
-include $(RELATIVE)/MakefileUSB.due
+include $(RELATIVE)/MakefileACM.due

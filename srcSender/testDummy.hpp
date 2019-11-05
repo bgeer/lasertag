@@ -8,7 +8,7 @@ private:
 
     uint16_t testMessage1 = 0b1000100010000000;
     uint16_t testMessage2 = 0b1010000010000000;
-    uint16_t testMessage3 = 0b1000001111100000;
+    uint16_t testMessage3 = 0b1000011111110000;
     irLedSender & sender;
 
 public: 
@@ -21,18 +21,13 @@ public:
         
     void main(){
 
-        for(;;){
-            hwlib::wait_ms(100);
-            sender.writeChannel(encode(testMessage1));
-            hwlib::wait_ms(500);
-            sender.writeChannel(encode(testMessage2));
             for(;;){
                 hwlib::cout << (encode(testMessage3)) << "\n";
                 sender.writeChannel(encode(testMessage3));
-                hwlib::wait_ms(1000);
+                hwlib::wait_ms(200);
             }
         
-        }
+    
 
 
 

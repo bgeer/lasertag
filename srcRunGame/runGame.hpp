@@ -28,8 +28,7 @@ private:
 
     //Abstract values
     int nMessages = 0;
-    uint32_t doubleMessage = 0; 
-    uint16_t message = doubleMessage;                                                  
+    uint16_t message = 0;                                                  
 
     //waitables
     rtos::flag triggerFlag;
@@ -68,7 +67,7 @@ public:
     void msg_received(uint32_t msg) override {messages.write(msg);}
 
     int getWP(){
-        parameters.getWapenPower();
+        return parameters.getWapenPower();
     }
     
     void main(){
@@ -81,7 +80,7 @@ public:
                     //hwlib::cout << parameters.getGameTime();
                     if(events == messages){
                         hwlib::cout << "message\n";
-                        doubleMessage = messages.read();
+                        message = messages.read();
                         state = runGameState::checkMessage;
                         break;
 
@@ -107,7 +106,7 @@ public:
                 }
 
                 case runGameState::checkMessage: {
-                    message = doubleMessage >> 16;
+
                     printUint16_t(message);//===============cout message
                     if( !(checkXorMessage(message)) ){
                         hwlib::cout<<"xor\n";
