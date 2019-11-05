@@ -12,7 +12,7 @@
 /// \brief
 /// decodes message to ir Protocol and sends it out.
 /// \details
-/// 
+/// This class is used for sending IR messages to an IR led using the IR pause protocol.
 class irLedSender : public rtos::task<>{
 
 private:
@@ -30,53 +30,41 @@ public:
     {}
 
 private:
+    /// \brief
+    /// Sends zero using IR protocol
+    /// \details
+    /// Sends a zero using the IR pause Protocol via an IR led.
+    void sendZero();
+    
+    /// \brief
+    /// Sends one using IR protocol
+    /// \details
+    /// Sends an one using the IR pause Protocol via an IR led.
+    void sendOne();
 
-    void sendZero(){
-        output.write(HIGH);
-        hwlib::wait_us(800);
-        output.write(LOW);
-        hwlib::wait_us(1600);
-    }
-
-    void sendOne(){
-        output.write(HIGH);
-        hwlib::wait_us(1600);
-        output.write(LOW);
-        hwlib::wait_us(800);
-    }
-
-
-
-    void write(const uint16_t & message){
-
-        sendOne();
-        hwlib::wait_us(3500);
-        
-        for(int j = 0; j < 2; j++){
-
-            for(int i = 15; i > -1; i--){
-                if (1 & (message >> i)) {
-                    sendOne();
-                } else {
-                    sendZero();
-                }
-            }  
-
-        }
-    }
+    /// \brief
+    /// Parses a messages to the sendzero and sendone functions.
+    /// \details
+    /// Bit shifts an UINT16_t and calls the sendzero or one function depending on the value of the bit.
+    void write(const uint16_t & message);
 
 public:
 
+    /// \brief
+    /// writes a message to the channel
+    /// \details
+    /// Writes an uint16_t to the channel, these messages are going to be parsed to the write function
     void writeChannel(const uint16_t & message){
         uintChannel.write(message);
     }
 
 
     void main() override {
-
-
         for(;;){
-            auto message = uintChannel.read();
+            auto event = wait(uintChannel);
+            if (event == uintChannel){
+                auto message = uintChannel.read();
+            }
             write(message); 
         }
     }
