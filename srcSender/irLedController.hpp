@@ -29,6 +29,7 @@ public:
         uintChannel(this, "uintChannel")
     {}
 
+
 private:
     /// \brief
     /// Sends zero using IR protocol
@@ -57,7 +58,6 @@ private:
     /// \details
     /// Bit shifts an UINT16_t and calls the sendzero or one function depending on the value of the bit.
     void write(const uint16_t & message){
-
         sendOne();
         hwlib::wait_us(3500);
         

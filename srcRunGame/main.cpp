@@ -9,6 +9,7 @@
 
 int main(){
     hwlib::wait_ms(1000);
+    hwlib::cout<<"----\n";
     //initialise oled
     //====================================================================
     namespace target = hwlib::target;

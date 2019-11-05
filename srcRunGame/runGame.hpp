@@ -104,16 +104,18 @@ public:
 
                 case runGameState::checkMessage: {
                     message = doubleMessage >> 16;
-                    printUint16_t(message);
+                    printUint16_t(message);//===============cout message
                     if( !(checkXorMessage(message)) ){
+                        hwlib::cout<<"xor\n";
                         state = runGameState::waiting;
                         break;
                     }
                     else if( !(checkStartrBit(message)) ){
+                        hwlib::cout<<"startbit\n";
                         state = runGameState::waiting;
                         break;
                     }
-                    //hwlib::cout << "+\n";
+                    hwlib::cout << "+\n";
                     state = runGameState::hitOrData;
                     break;
                 }
