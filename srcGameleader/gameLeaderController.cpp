@@ -13,7 +13,7 @@ uint16_t gameLeaderController::makedata( uint8_t valueL, uint8_t valueR, int siz
         data |= bit << (15 - (10 - i));
     }
     
-    return data;
+    return encode(data);
 }
 
 void gameLeaderController::main() {
@@ -140,21 +140,21 @@ void gameLeaderController::main() {
                     } else if (matrixInfo == '#' && !pressed) {
                         pressed = true;
                         isFlashed = true;
-                        uint16_t firstMessage = makedata(i, 10, 5);
+                        uint16_t firstMessage = 0x1F;
                         uint16_t secondMessage = makedata(playerPower[i - 1], time.get(), 3);
 
                         bool tmp;
-                        hwlib::cout << "i: " << i << " gametime: 10 lvalue: 5\n";
-                        for (int i = 0; i < 16; i++) {
+                        hwlib::cout << "\ni: " << i << " gametime: 10 lvalue: 5\n";
+                        for (int i = 15; i >= 0; i--) {
                             tmp = firstMessage & (1 << i);
                             hwlib::cout << tmp;
                         }
-                        hwlib::cout << "\n\nPower: " << playerPower[i-1] << " time.get(): " << time.get() << " lvalue: 3\n";
-                        for (int i = 0; i < 16; i++) {
+                        hwlib::cout << " " << check(firstMessage) << "\n\nPower: " << playerPower[i-1] << " time.get(): " << time.get() << " lvalue: 3\n";
+                        for (int i = 15; i >= 0; i--) {
                             tmp = secondMessage & (1 << i);
                             hwlib::cout << tmp;
                         }
-                        hwlib::cout << hwlib::endl;
+                        hwlib::cout << " " << check(secondMessage) << hwlib::endl;
                     } 
                 } else {
                     pressed = false;
