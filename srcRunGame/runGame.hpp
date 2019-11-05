@@ -67,6 +67,7 @@ public:
     
     void main(){
         runGameState state = runGameState::waiting;
+        //===============================================================================================================
         for(;;){
             switch(state){
                 case runGameState::waiting: {
@@ -156,6 +157,9 @@ public:
                     int tempWp = get6to10(message); //get enemy wp
                     parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
                     //update hp on oled
+                    oled.clear();
+                    oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
+                    oled.flush();
                     state = runGameState::waiting;
                     break;
                 }
@@ -168,8 +172,9 @@ public:
                 
 
                 case runGameState::gameOver: {
-                    //oled game over
-                    //
+                    oled.clear();
+                    oled.drawGameOver();
+                    oled.flush();
                 }
             }
         }

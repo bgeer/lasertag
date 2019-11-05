@@ -6,9 +6,6 @@
 //start (       player id               )    |   (       wapen power             )    |   xor 1,6 xor 2,7 xor 3,8 xor 4,9 xor 5,10
 
 
-#include "hwlib.hpp"
-
-
 //van rechts naar links (little Endian)
 bool getbit(uint8_t index, const uint16_t & byte){
     return (byte & (1 << (index - 1)));
