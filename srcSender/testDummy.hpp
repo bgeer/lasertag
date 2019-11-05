@@ -6,9 +6,9 @@ class testDummy : public rtos::task<> {
 
 private:
 
-    uint16_t testMessage1 = 0b0000100010000000;
-    uint16_t testMessage2 = 0b0010000010000000;
-    uint16_t testMessage3 = 0b1100001111100000;
+    uint16_t testMessage1 = 0b1000100010000000;
+    uint16_t testMessage2 = 0b1010000010000000;
+    uint16_t testMessage3 = 0b1000001111100000;
     irLedSender & sender;
 
 public: 
@@ -27,6 +27,7 @@ public:
             hwlib::wait_ms(500);
             sender.writeChannel(encode(testMessage2));
             for(;;){
+                hwlib::cout << (encode(testMessage3)) << "\n";
                 sender.writeChannel(encode(testMessage3));
                 hwlib::wait_ms(1000);
             }

@@ -14,7 +14,7 @@ class msg_decoder : public rtos::task<>, public pause_listener {
   private:
     msg_listener& listener;
     msg_decoder_state state = msg_decoder_state::idle;
-    rtos::channel<int, 100> pauses;
+    rtos::channel<int, 200> pauses;
 
   public:
     msg_decoder(msg_listener& listener)
@@ -39,9 +39,10 @@ class msg_decoder : public rtos::task<>, public pause_listener {
                         
 
                     } else {
-                        num_bits++;
+                        
                         data <<= 1;
                         data |= pause > 1'000 ? 0 : 1;
+                        num_bits++;
                     }
                     break;
             }

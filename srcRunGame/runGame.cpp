@@ -22,7 +22,7 @@ void setbit(uint8_t index, uint16_t & byte, bool set){
 }
 //prints in big endian
 void printBit(const uint16_t & byte){
-    for(int i = 16; i > 0; i--){
+    for(int i = 15; i >= 0; i--){
         hwlib::cout << getbit(i, byte) ;
     }
     hwlib::cout << '\n';
@@ -55,13 +55,14 @@ void runGame::printUint16_t(const __uint32_t & message){
         hwlib::cout<<((message & (1<<i)) !=0);
     }
     hwlib::cout<<'\n';
+    
 }
 
 //van rechts naar links (little Endian)
 
 
 bool runGame::checksumMessage(const uint32_t & message){
-    for(int i = 0; i < 16; i++){
+    for(int i = 0; i < 15; i++){
         if( !(getbit(i, uint16_t(message)) == getbit(i, uint16_t(message >> 16)))){
             return false;
         }
@@ -76,8 +77,8 @@ bool runGame::checkStartrBit(const uint16_t & message){
 
 //check the xor checksum
 bool runGame::checkXorMessage(const uint16_t & message){
-    for(int i = 1; i < 6; i++){
-        if (!(getbit(10+i, message) == bool(getbit(i, message) ^ getbit(i+5, message)))){
+    for(int i = 4; i >= 0; i--){
+        if (getbit(i, message) != bool(getbit(i+10, message) ^ getbit(i+5, message))){
             return false;
         }
     }

@@ -93,23 +93,16 @@ public:
                 }
 
                 case runGameState::checkMessage: {
-                    if( !(checksumMessage(doubleMessage)) ){
-                        state = runGameState::waiting;;
-                        hwlib::cout << "test 1 failed\n";
-                        printUint16_t(doubleMessage);
+                    message = doubleMessage >> 16;
+                    if( !(checkXorMessage(message)) ){
+                        state = runGameState::waiting;
                         break;
                     }
                     else if( !(checkStartrBit(message)) ){
                         state = runGameState::waiting;
-                        hwlib::cout << " test 2 failed\n";
                         break;
                     }
-                    else if( !(checkXorMessage(message)) ){
-                        state = runGameState::waiting;
-                        hwlib::cout << " test 3 failed\n";
-                        break;
-                    }
-                    hwlib::cout << "g\n";
+                    hwlib::cout << "+\n";
                     state = runGameState::hitOrData;
                     break;
                 }
