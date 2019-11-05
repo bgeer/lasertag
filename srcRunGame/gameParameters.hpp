@@ -8,10 +8,10 @@ struct playerHitData{ //enemy data
 
 class gameParameters{
 private:
-    int playerNr = 0;
-    int gameTime = 0; //hoe lang het spel duurt in secondes
-    int wapenpower = 0;
-    int startTime = 0; //over hoelang het spel start in secondes
+    int playerNr = 1;
+    int gameTime = 12; //hoe lang het spel duurt in secondes
+    int wapenpower = 3;
+    int startTime = 5; //over hoelang het spel start in secondes
     int hitpoits = 100;
     playerHitData enemyHits[31] = {};
     uint16_t shootData = 0;

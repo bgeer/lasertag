@@ -27,13 +27,14 @@ private:
     //buzzer
 
     //Abstract values
-    int nMessages = 0;
+    int nMessages = 3;
     uint32_t doubleMessage = 0; 
     uint16_t message = doubleMessage;                                                  
 
     //waitables
     rtos::flag triggerFlag;
     rtos::flag oledUpdateFlag;
+    rtos::flag gameOverFlag;
     rtos::channel<uint32_t, 10> messages;
     
     gameTimer gameDuration;
@@ -46,8 +47,9 @@ public:
     oled(oled),
     triggerFlag(this, "Trigger Flag"),
     oledUpdateFlag(this, "oledUpdate falg"),
+    gameOverFlag(this, "game over"),
     messages(this, "messages"),
-    gameDuration(parameters, oledUpdateFlag)
+    gameDuration(parameters, oledUpdateFlag, gameOverFlag)
     {}
     
     void printUint16_t(const uint32_t & message);
@@ -66,13 +68,12 @@ public:
     void msg_received(uint32_t msg) override {messages.write(msg);}
     
     void main(){
-        runGameState state = runGameState::waiting;
-        //===============================================================================================================
+        runGameState state = runGameState::countDown; //==================================================================
         for(;;){
             switch(state){
                 case runGameState::waiting: {
 
-                    auto events = wait(messages + triggerFlag + oledUpdateFlag);
+                    auto events = wait(messages + triggerFlag + oledUpdateFlag + gameOverFlag);
                     //hwlib::cout << parameters.getGameTime();
                     if(events == messages){
                         hwlib::cout << "message\n";
@@ -86,8 +87,13 @@ public:
                     }
                     if(events == oledUpdateFlag){
                         oled.clear();
-                        oled.drawGameCountdown( parameters.getGameTime() );
+                        oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
+                        oled.drawPlayerNumber(parameters.getPlayerNr() );
                         oled.flush();
+                        break;
+                    }
+                    if(events == gameOverFlag){
+                        state = runGameState::gameOver;
                         break;
                     }
                     break;
@@ -139,15 +145,18 @@ public:
                 case runGameState::countDown: {
                     if(parameters.getStartTime() == 0){
                         state = runGameState::waiting;
-                        //update oled
+                        // oled.clear();
+                        // oled.drawHpTime( parameters.getHitpoints(), parameters.getGameTime() );//mischien
+                        // oled.flush();
                         gameDuration.start();
                         break;
                     }
-                    parameters.setStartTime( parameters.getStartTime()-1);
                     //update start time on oled
                     oled.clear();
                     oled.drawGameCountdown( parameters.getStartTime() );
                     oled.flush();
+
+                    parameters.setStartTime( parameters.getStartTime()-1);
                     hwlib::wait_ms(1000);
                     break;
                     
@@ -156,7 +165,12 @@ public:
                     parameters.newHit( get1to5(message) ); //get enemy ID
                     int tempWp = get6to10(message); //get enemy wp
                     parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
-                    //update hp on oled
+                    //regester hit
+                    if(parameters.getHitpoints() < 0){
+                        state = runGameState::gameOver;
+                        break;
+                    }
+
                     oled.clear();
                     oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
                     oled.flush();
