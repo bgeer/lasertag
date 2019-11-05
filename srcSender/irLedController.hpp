@@ -40,7 +40,7 @@ private:
         hwlib::wait_us(800);
         output.write(LOW);
         hwlib::wait_us(1600);
-    }
+    }  
     
     /// \brief
     /// Sends one using IR protocol
@@ -51,7 +51,7 @@ private:
         hwlib::wait_us(1600);
         output.write(LOW);
         hwlib::wait_us(800);
-}
+    }
 
     /// \brief
     /// Parses a messages to the sendzero and sendone functions.
@@ -72,14 +72,29 @@ private:
             }  
 
         }
-}
+        sendOne();
+        hwlib::wait_us(3500);
+                for(int j = 0; j < 2; j++){
+
+            for(int i = 15; i > -1; i--){
+                if (1 & (message >> i)) {
+                    sendOne();
+                } else {
+                    sendZero();
+                }
+            }  
+
+        }
+        
+
+    }
 
 public:
 
     /// \brief
     /// writes a message to the channel
     /// \details
-    /// Writes an uint16_t to the channel, these messages are going to be parsed to the write function
+    /// Writes an uint16_t to the channel, these messages are going to be parsed to the
     void writeChannel(const uint16_t & message){
         uintChannel.write(message);
     }
