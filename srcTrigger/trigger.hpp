@@ -3,7 +3,7 @@
 
 #include "rtos.hpp"
 #include "../srcRunGame/runGame.hpp"
-/// @FILE
+/// @file
 
 /// \brief
 /// This task listens to an pin input 
