@@ -31,6 +31,7 @@ public:
                 parameters.setGameTime(parameters.getGameTime() - 1);
   
             }else if(startGame){
+                hwlib::cout << "time out\n";
                 gameOverFlag.set();
             }
             

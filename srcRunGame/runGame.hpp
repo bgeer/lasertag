@@ -181,6 +181,7 @@ public:
                         parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
                         //regester hit
                         if(parameters.getHitpoints() < 0){
+                            hwlib::cout << "dood\n";
                             state = runGameState::gameOver;
                             break;
                         }
