@@ -4,7 +4,7 @@
 #include "hwlib.hpp"
 
 
-/// \@file
+/// @file
 
 /// \brief
 /// Terminal used to write text to a hwlib window
