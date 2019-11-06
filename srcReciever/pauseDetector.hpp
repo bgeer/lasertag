@@ -10,7 +10,11 @@ enum class pause_detector_state {
     signal,
 };
 
-
+/// @file
+/// \brief
+/// This class detects pauses from an ir led.
+/// \details
+/// This class detects pause lengths and calls a function from message decoder that puts them inside a channel
 class pause_detector : public rtos::task<> {
   private:
     hwlib::target::pin_in signal;
