@@ -1,6 +1,15 @@
 #ifndef GAME_TIME_ENTITY_HPP
 #define GAME_TIME_ENTITY_HPP
 
+
+
+/// \@file
+
+/// \brief
+/// Value of the countdown in GameLeader
+/// \details
+/// This is the value of the gametime countdown in GameLeader that gets parsed
+/// to the players and it gets subtracted by a seperate rtos task called duration.
 class gameTimeEntity {
 private:
 
