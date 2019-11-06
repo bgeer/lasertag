@@ -110,13 +110,6 @@ public:
                 }
 
                 case runGameState::checkMessage: {
-                    hwlib::cout << doubleMessage << '\n';
-                    printUint16_t(message);
-                    if( !(checksumMessage(doubleMessage))){
-                        hwlib::cout<<"checksum\n";
-                        state = runGameState::waiting;
-                        break;
-                    }
                     if( !(checkXorMessage(message)) ){
                         hwlib::cout<<"xor\n";
                         state = runGameState::waiting;
@@ -127,7 +120,6 @@ public:
                         state = runGameState::waiting;
                         break;
                     }
-                    hwlib::cout << "+\n";
                     state = runGameState::hitOrData;
                     break;
                 }
@@ -146,13 +138,13 @@ public:
                 case runGameState::saveData: {
                     //hwlib::cout<<"saveData\n";
                     if(nMessages == 1){
-                        hwlib::cout<<"m1\n";
+
                         parameters.setPlayerNr( get1to5(message) ); //get player ID
                         parameters.setGameTime( get6to10(message) * 60); //get game time
                         state = runGameState::waiting;
                         break;
                     }else{
-                        hwlib::cout<<"m2\n";
+                        hwlib::cout<<"Initialised\n";
                         parameters.setWapenPower( get1to3(message) ); //get Wapen Power
                         parameters.setStartTime( get4to10(message) ); //get start time
                         parameters.setShootData( makeShootMessage() ); //make and save the shoot message
