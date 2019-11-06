@@ -10,7 +10,7 @@
 #include "oledController.hpp"
 
 
-enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, shoot, gameOver};
+enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, gameOver};//shoot
 
 class runGame : public rtos::task<>, public msg_listener{
 
@@ -22,8 +22,6 @@ private:
     irLedSender & sender;
     gameParameters parameters;
     oledController & oled;
-
-    //oled
     //buzzer
 
     //Abstract values
@@ -65,14 +63,18 @@ public:
     void setTriggerFlag();
     uint16_t makeShootMessage();
 
-    void msg_received(uint32_t msg) override {messages.write(msg);}
+    void shoot();
+
+    void msg_received(uint32_t msg) override{
+        messages.write(msg);
+    }
 
     int getWP(){
         return parameters.getWapenPower();
     }
     
     void main(){
-        runGameState state = runGameState::waiting; //==================================================================
+        runGameState state = runGameState::waiting;
         for(;;){
             switch(state){
                 case runGameState::waiting: {
@@ -87,8 +89,9 @@ public:
                         break;
                     }
                     if(events == triggerFlag){
-                        hwlib::cout << "shoot\n";
-                        state = runGameState::shoot;
+                        // hwlib::cout << "shoot\n";
+                        // state = runGameState::shoot;
+                        shoot();
                         break;
                     }
                     if(events == oledUpdateFlag){
@@ -194,13 +197,13 @@ public:
                     break;
                 }
                 
-                case runGameState::shoot: {
-                    if( gameDuration.getStartGame_gameTimer() ){
-                        sender.writeChannel( parameters.getShootdata() );
-                    }
-                    state = runGameState::waiting;
-                    break;
-                }
+                // case runGameState::shoot: {
+                //     if( gameDuration.getStartGame_gameTimer() ){
+                //         sender.writeChannel( parameters.getShootdata() );
+                //     }
+                //     state = runGameState::waiting;
+                //     break;
+                // }
                 
 
                 case runGameState::gameOver: {
