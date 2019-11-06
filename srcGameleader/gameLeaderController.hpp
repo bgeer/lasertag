@@ -8,10 +8,15 @@
 #include "terminal.hpp"
 #include "duration.hpp"
 #include "/home/daanzvw/LazerGameProject/lasertag/srcSender/irLedController.hpp"
+/// \@file
 
-// #define ever ;;
 
 
+/// \brief
+/// Task that initialises the players.
+/// \details
+/// This taks is used to initialise all the players 
+/// by player id, weapon power, remaining time until game starts and game time.
 class gameLeaderController : public rtos::task<> {
 private:
     enum class gameLeaderStates {SHOW_BEGIN, IDLE, CONFIG_PLAYERS, SEND_CONFIG};
