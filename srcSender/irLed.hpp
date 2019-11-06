@@ -2,11 +2,12 @@
 #define IR_LED
 
 #include "hwlib.hpp"
+/// @file
 
 /// \brief
 /// port used for IR led
 /// \details
-/// Port used for an IR led.
+/// This class reserves a Port for an IR led.
 class irLed {
 
 private:
