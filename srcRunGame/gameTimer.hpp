@@ -7,7 +7,7 @@
 
 class gameTimer : public rtos::task<> {
 
-    rtos::clock oneSecondClock;
+    rtos::clock fiveSecondClock;
     gameParameters & parameters;
     bool startGame = false;
     rtos::flag & oledUpdateFlag;
