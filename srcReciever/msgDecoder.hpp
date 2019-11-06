@@ -3,13 +3,18 @@
 
 #include "irInterface.hpp"
 
+/// @file
+
 
 enum class msg_decoder_state {
     idle,
     reading
 };
 
-
+/// \brief
+/// Decodes givin into a message.
+/// \details
+/// This task recieves pauses in us an channel and decodes them to a 32uint_t 
 class msg_decoder : public rtos::task<>, public pause_listener {
   private:
     msg_listener& listener;
@@ -51,7 +56,10 @@ class msg_decoder : public rtos::task<>, public pause_listener {
 
         }
     }
-
+    /// \brief 
+    ///  Adds pause to channel
+    /// \details
+    /// This function adds an int pause in us to the pause channel.
     void pause_detected(int length) override {
         pauses.write(length);
     }
