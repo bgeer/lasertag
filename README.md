@@ -1,1 +1,1 @@
-things
+Internet of things
