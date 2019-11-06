@@ -128,3 +128,9 @@ uint16_t runGame::makeShootMessage(){
     
     return encode(data);
 }
+
+void runGame::shoot(){
+    if( gameDuration.getStartGame_gameTimer() ){
+        sender.writeChannel( parameters.getShootdata() );
+    }
+}
