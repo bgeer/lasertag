@@ -1,6 +1,6 @@
 #ifndef BEEPERCONTROL_HPP
 #define BEEPERCONTROL_HPP
-/// \@file
+/// @file
 
 #include "rtos.hpp"
 
