@@ -14,8 +14,9 @@
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, gameOver};//shoot
 
 /// @file
+/// \brief
 /// Class to run the game
-/// @details
+/// \details
 /// This class is a rtos task, it controls the player. It sends and receives messages and controls an oled and a beeper
 class runGame : public rtos::task<>, public msg_listener{
 private:
