@@ -16,7 +16,7 @@ enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, h
 /// @file
 /// Class to run the game
 /// @details
-/// This class controls the player.
+/// This class is a rtos task, it controls the player. It sends and receives messages and controls an oled and a beeper
 class runGame : public rtos::task<>, public msg_listener{
 private:
     //boundary objects
@@ -42,6 +42,10 @@ private:
 
 public:
 
+    ///@brief constructor forrunGame
+    ///@param sender This is where messages are send to, the sender class controls the IR led.
+    ///@param oled This is the screen the oledController writes to.
+    ///@param pieper This is the beeper that goes off when you shoot and when the game is over.
     runGame(irLedSender & sender, oledController & oled, beeperControl & pieper): 
     task("Rungame"),
     sender(sender),
@@ -54,29 +58,63 @@ public:
     gameDuration(parameters, oledUpdateFlag, gameOverFlag)
     {}
     
+    /// @brief Prints a uint16_t
+    /// @details Prints a uint16_t in the command line, it is used to debug.
     void printUint16_t(const uint16_t & message);
+
+    /// @brief Checks the sum of a uint16_t
+    /// @details Checks if the first 16 bits are the same as the last 16 bits.
     bool checksumMessage(const uint32_t & message);
+
+    /// @brief Checks the startbit on a uint16_t
+    /// @details Checks if bit 0 in a uint16_t is a 1.
     bool checkStartBit(const uint16_t & message);
+
+    /// @brief Checks the xor bits in a uint16_t
+    /// @details In a uint16_t, checks if the xor of bit 1 and bit 6 is the same as bit 11
     bool checkXorMessage(const uint16_t & message);
 
+    /// @brief returns bit 1 up to and including bit 5 as a integer value
     int get1to5(const uint16_t & message);
+
+    /// @brief returns bit 6 up to and including bit 10 as a integer value
     int get6to10(const uint16_t & message);
+
+    /// @brief returns bit 1 up to and including bit 3 as a integer value
     int get1to3(const uint16_t & message);
+
+    /// @brief returns bit 4 up to and including bit 10 as a integer value
     int get4to10(const uint16_t & message);
 
+    /// @brief sets the trigger flag
+    /// @details This function sets the trigger flag. It is used in a class witch knows runGame.
+    /// This way runGame can wait for the flag witch can be set by another class
     void setTriggerFlag();
+
+    /// @brief Compiles the message gat gets send to sender if you shoot.
+    /// @details This function makes the message that gets send to the sender channel.
+    /// It uses gameParameters to get the correct data.
     uint16_t makeShootMessage();
 
+    /// @brief Writes the shoot message to the sender channel
+    /// @details Gets the shoot message from gameParameters and writes it to the sender channel.
     void shoot();
 
     void msg_received(uint32_t msg) override{
         messages.write(msg);
     }
 
+    /// @brief returns the wapen power
+    /// @details gets the wapen power from gameParameters and returns it as a integer
     int getWP(){
         return parameters.getWapenPower();
     }
     
+    /// @brief this is the main function in runGame
+    /// @details rtos runs this function, it is a endless loop. to keep the function clear it is build up using a switch state
+    /// the first state is waiting,
+    /// in this state rtos waits for either a new message, the trigger flag, the oled update flag or the game over flag.
+    /// if one of these things happends the case will switch to the appropriate case to call the necessary functions.
     void main(){
         runGameState state = runGameState::waiting;
         for(;;){
@@ -178,7 +216,7 @@ public:
                         parameters.newHit( enemyID ); //register enemy hit
                         int tempWp = get6to10(message); //get enemy wp
                         
-                        parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
+                        parameters.setHitpoits( parameters.getHitpoints()- (tempWp*3) ); //update hp, current hp - enemy wp
                         //regester hit
                         if(parameters.getHitpoints() < 0){
                             hwlib::cout << "dood\n";
