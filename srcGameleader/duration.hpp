@@ -4,7 +4,7 @@
 #include "rtos.hpp"
 #include "gameTimeEntity.hpp"
 
-/// \@file
+/// @file
 
 /// \brief
 /// Tasks that updates the time from another class 
