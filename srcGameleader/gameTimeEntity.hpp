@@ -3,7 +3,7 @@
 
 
 
-/// \@file
+/// @file
 
 /// \brief
 /// Value of the countdown in GameLeader
