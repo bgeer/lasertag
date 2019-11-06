@@ -12,17 +12,18 @@
 
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, gameOver};//shoot
 
+/// @file
+/// Class to run the game
+/// @details
+/// This class controls the player.
 class runGame : public rtos::task<>, public msg_listener{
-
 private:
-    //states
-    
-    
     //boundary objects
     irLedSender & sender;
     gameParameters parameters;
     oledController & oled;
     //buzzer
+    //trigger pin 5
 
     //Abstract values
     int nMessages = 0;

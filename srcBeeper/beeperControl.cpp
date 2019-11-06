@@ -1,5 +1,3 @@
-
-
 #include "beeperControl.hpp"
 
 void beeperControl::playFreq(int freq, int times){
