@@ -53,7 +53,12 @@ private:
         hwlib::wait_us_busy(800);
     }
 
-
+    /// \brief
+    /// This fucntion makes a closing message.
+    /// \details
+    /// This fucntion sends an closing message so that 
+    /// the message knows that the message has ended and it should
+    /// decode a different message.
     void endMessage(){
         hwlib::wait_ms(1);
         output.write(HIGH);
