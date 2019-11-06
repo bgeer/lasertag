@@ -4,6 +4,12 @@
 #include "rtos.hpp"
 #include "gameTimeEntity.hpp"
 
+/// \@file
+
+/// \brief
+/// Tasks that updates the time from another class 
+/// \details
+/// Rtos Task that updates the time interface class by every second.
 class duration : public rtos::task<> {
 
 private: 
