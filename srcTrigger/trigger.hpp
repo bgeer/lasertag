@@ -3,7 +3,13 @@
 
 #include "rtos.hpp"
 #include "../srcRunGame/runGame.hpp"
+/// @FILE
 
+/// \brief
+/// This task listens to an pin input 
+/// \details
+/// This task is used for listening for the input for the trigger button.
+/// If the input is high, a flag gets setted.
 class trigger : public rtos::task<>{
 private:
     runGame &game;
