@@ -8,7 +8,7 @@
 #include "terminal.hpp"
 #include "duration.hpp"
 #include "/home/daanzvw/LazerGameProject/lasertag/srcSender/irLedController.hpp"
-/// \@file
+/// @file
 
 
 
