@@ -2,6 +2,9 @@
 #include "rtos.hpp"
 #include "../srcGameleader/bitHelper.hpp"
 
+/// @file
+/// \brief
+/// Test class for sending messages.
 class testDummy : public rtos::task<> { 
 
 private:
