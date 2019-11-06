@@ -189,9 +189,11 @@ public:
                         oled.clear();
                         oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
                         oled.flush();
+                        }
                         state = runGameState::waiting;
+                        
                         break;
-                    }
+                    
                 }
                 
                 // case runGameState::shoot: {
