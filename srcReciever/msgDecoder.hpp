@@ -12,7 +12,7 @@ enum class msg_decoder_state {
 };
 
 /// \brief
-/// Decodes givin into a message.
+/// Decodes givin pauses into a message.
 /// \details
 /// This task recieves pauses in us an channel and decodes them to a 32uint_t 
 class msg_decoder : public rtos::task<>, public pause_listener {
