@@ -2,7 +2,7 @@
 #define BIT_HELPER_HPP
 
 #include "hwlib.hpp"
-// \@file
+/// @file
 
 
 /// \brief
