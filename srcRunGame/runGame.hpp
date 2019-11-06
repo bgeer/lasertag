@@ -96,7 +96,6 @@ public:
                         break;
                     }
                     if(events == oledUpdateFlag){
-                        oled.clear();
                         oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
                         oled.drawPlayerNumber(parameters.getPlayerNr() );
                         oled.flush();
@@ -157,14 +156,10 @@ public:
                 case runGameState::countDown: {
                     if(parameters.getStartTime() == 0){
                         state = runGameState::waiting;
-                        // oled.clear();
-                        // oled.drawHpTime( parameters.getHitpoints(), parameters.getGameTime() );//mischien
-                        // oled.flush();
                         gameDuration.start();
                         break;
                     }
                     //update start time on oled
-                    oled.clear();
                     oled.drawGameCountdown( parameters.getStartTime() );
                     oled.flush();
 
@@ -187,7 +182,6 @@ public:
                             break;
                         }
 
-                        oled.clear();
                         oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
                         oled.flush();
                         }
