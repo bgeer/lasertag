@@ -37,9 +37,9 @@ private:
     /// Sends a zero using the IR pause Protocol via an IR led.
     void sendZero(){
         output.write(HIGH);
-        hwlib::wait_us(800);
+        hwlib::wait_us_busy(800);
         output.write(LOW);
-        hwlib::wait_us(1600);
+        hwlib::wait_us_busy(1600);
     }  
     
     /// \brief
@@ -48,20 +48,20 @@ private:
     /// Sends an one using the IR pause Protocol via an IR led.
     void sendOne(){
         output.write(HIGH);
-        hwlib::wait_us(1600);
+        hwlib::wait_us_busy(1600);
         output.write(LOW);
-        hwlib::wait_us(800);
+        hwlib::wait_us_busy(800);
     }
 
 
     void endMessage(){
         hwlib::wait_ms(1);
         output.write(HIGH);
-        hwlib::wait_us(100);
+        hwlib::wait_us_busy(100);
         output.write(LOW);
         hwlib::wait_ms(1);
         output.write(HIGH);
-        hwlib::wait_us(100);
+        hwlib::wait_us_busy(100);
         output.write(LOW);
     }
 
@@ -71,7 +71,7 @@ private:
     /// Bit shifts an UINT16_t and calls the sendzero or one function depending on the value of the bit.
     void write(const uint16_t & message){
         sendOne();
-        hwlib::wait_us(3500);
+        hwlib::wait_us_busy(3500);
         for(uint8_t i = 0; i < 2; i++){
          
             for(int i = 15; i > -1; i--){
