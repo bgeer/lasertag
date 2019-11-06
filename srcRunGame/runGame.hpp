@@ -91,7 +91,7 @@ public:
                         state = runGameState::checkMessage;
                         break;
                     }
-                    if(events == triggerFlag){
+                    if(events == triggerFlag && gameDuration.getStartGame_gameTimer() ){
                         // hwlib::cout << "shoot\n";
                         // state = runGameState::shoot;
                         shoot();
