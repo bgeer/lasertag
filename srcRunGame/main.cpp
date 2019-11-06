@@ -5,6 +5,7 @@
 #include "../srcSender/irLed.hpp"
 #include "../srcReciever/irReciever.hpp"
 #include "oledController.hpp"
+#include "../srcBeeper/beeperControl.hpp"
 
 
 int main(){
@@ -63,7 +64,11 @@ int main(){
     irLedGnd.flush();
     auto ir = irLed();
     auto senderTask = irLedSender(ir);
-    runGame player(senderTask, o);
+
+    auto beeperPin = target::pin_out( target::pins::d8 );
+    beeperControl beeper(beeperPin);
+    runGame player(senderTask, o, beeper);
+    
     
 
     auto decoderTask = msg_decoder(player);
@@ -74,6 +79,7 @@ int main(){
     (void) detectorTask;
     (void) triggerTask;
     (void) player;
+    (void) beeper;
 
     rtos::run();
 }

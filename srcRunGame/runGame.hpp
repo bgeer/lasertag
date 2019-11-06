@@ -8,6 +8,7 @@
 #include "../srcSender/irLedController.hpp"
 #include "../srcReciever/irReciever.hpp"
 #include "oledController.hpp"
+#include "../srcBeeper/beeperControl.hpp"
 
 
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, gameOver};//shoot
@@ -22,13 +23,14 @@ private:
     irLedSender & sender;
     gameParameters parameters;
     oledController & oled;
-    //buzzer
+    beeperControl & pieper;
     //trigger pin 5
 
     //Abstract values
     int nMessages = 0;
     uint16_t message = 0; 
-    uint32_t doubleMessage = 0;                                                 
+    uint32_t doubleMessage = 0;
+    bool playGameOverSound = 0;                                               
 
     //waitables
     rtos::flag triggerFlag;
@@ -40,10 +42,11 @@ private:
 
 public:
 
-    runGame(irLedSender & sender, oledController & oled): 
+    runGame(irLedSender & sender, oledController & oled, beeperControl & pieper): 
     task("Rungame"),
     sender(sender),
     oled(oled),
+    pieper(pieper),
     triggerFlag(this, "Trigger Flag"),
     oledUpdateFlag(this, "oledUpdate Flag"),
     gameOverFlag(this, "game over"),
@@ -93,6 +96,7 @@ public:
                         // state = runGameState::shoot;
                         shoot();
                         printUint16_t( parameters.getShootdata() );
+                        pieper.setFlag1();
                         break;
                     }
                     if(events == oledUpdateFlag){
@@ -190,20 +194,16 @@ public:
                         break;
                     
                 }
-                
-                // case runGameState::shoot: {
-                //     if( gameDuration.getStartGame_gameTimer() ){
-                //         sender.writeChannel( parameters.getShootdata() );
-                //     }
-                //     state = runGameState::waiting;
-                //     break;
-                // }
-                
+                               
 
                 case runGameState::gameOver: {
                     oled.clear();
                     oled.drawGameOver();
                     oled.flush();
+                    if(!playGameOverSound){
+                        playGameOverSound = 1;
+                        pieper.setFlag2();
+                    }
                 }
             }
         }

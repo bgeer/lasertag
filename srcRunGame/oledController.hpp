@@ -22,6 +22,7 @@ public:
     fullScreen(fullScreen)
     {
     oled.clear();
+    drawStartMessage();
     oled.flush();
     }
 
@@ -36,6 +37,8 @@ public:
     void drawGameOver();
 
     void drawGameCountdown(int sec);
+
+    void drawStartMessage();
 };
 
 #endif //OLEDCONTROLLER_HPP

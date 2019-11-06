@@ -42,3 +42,12 @@ void oledController::drawGameCountdown(int sec){
 		<< sec << " sec\n"
 		<< "========\n";
 }
+
+void oledController::drawStartMessage(){
+    fullScreen
+        << "\f"
+		<< "========\n"
+		<< "waiting\n"
+        << "for\n"
+		<< "stats\n";
+}
