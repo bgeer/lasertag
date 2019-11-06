@@ -115,7 +115,7 @@ void runGame::setTriggerFlag(){
 }
 
 uint16_t runGame::makeShootMessage(){
-    uint16_t data = 0x00;
+    uint16_t data = 0x8000;
 
     for (int i = 5 - 1; i >= 0; i--) {
         bool bit = (parameters.getPlayerNr() & (1 << i));
