@@ -83,7 +83,6 @@ public:
                     auto events = wait(messages + triggerFlag + oledUpdateFlag + gameOverFlag);
                     //hwlib::cout << parameters.getGameTime();
                     if(events == messages){
-                        hwlib::cout << "message\n";
                         doubleMessage = messages.read();
                         message = doubleMessage >> 16;
                         state = runGameState::checkMessage;
@@ -174,20 +173,24 @@ public:
                     
                 }
                 case runGameState::hit: {
-                    parameters.newHit( get1to5(message) ); //get enemy ID
-                    int tempWp = get6to10(message); //get enemy wp
-                    parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
-                    //regester hit
-                    if(parameters.getHitpoints() < 0){
-                        state = runGameState::gameOver;
+                    int enemyID = get1to5(message); //get enemy ID
+                    if(parameters.getPlayerNr() != enemyID ){
+                        parameters.newHit( enemyID ); //register enemy hit
+                        int tempWp = get6to10(message); //get enemy wp
+                        
+                        parameters.setHitpoits( parameters.getHitpoints()-tempWp ); //update hp, current hp - enemy wp
+                        //regester hit
+                        if(parameters.getHitpoints() < 0){
+                            state = runGameState::gameOver;
+                            break;
+                        }
+
+                        oled.clear();
+                        oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
+                        oled.flush();
+                        state = runGameState::waiting;
                         break;
                     }
-
-                    oled.clear();
-                    oled.drawHpTime(parameters.getHitpoints(), parameters.getGameTime() );
-                    oled.flush();
-                    state = runGameState::waiting;
-                    break;
                 }
                 
                 // case runGameState::shoot: {
