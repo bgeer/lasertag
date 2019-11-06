@@ -92,6 +92,7 @@ public:
                         // hwlib::cout << "shoot\n";
                         // state = runGameState::shoot;
                         shoot();
+                        printUint16_t( parameters.getShootdata() );
                         break;
                     }
                     if(events == oledUpdateFlag){

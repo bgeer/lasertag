@@ -76,8 +76,8 @@ bool runGame::checkStartBit(const uint16_t & message){
 bool runGame::checkXorMessage(const uint16_t & message){
     for(int i = 4; i >= 0; i--){
         if (getbit(i, message) != bool(getbit(i+10, message) ^ getbit(i+5, message))){
-            hwlib::cout<<i<<"\n";
-            hwlib::cout<<getbit(i, message)<<" "<<getbit(i+10, message)<<" "<<getbit(i+5, message)<<"\n";
+            // hwlib::cout<<i<<"\n";
+            // hwlib::cout<<getbit(i, message)<<" "<<getbit(i+10, message)<<" "<<getbit(i+5, message)<<"\n";
             return false;
         }
     }

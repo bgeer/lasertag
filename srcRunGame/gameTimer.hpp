@@ -15,7 +15,7 @@ class gameTimer : public rtos::task<> {
 
 public:
     gameTimer(gameParameters & parameters, rtos::flag & oledUpdateFlag, rtos::flag & gameOverFlag):
-        oneSecondClock(this, 1'000'000, "One Second Clock"),
+        fiveSecondClock(this, 5'000'000, "five Second Clock"),
         parameters(parameters),
         oledUpdateFlag(oledUpdateFlag),
         gameOverFlag(gameOverFlag)
@@ -25,10 +25,10 @@ public:
 
     void main(){
         for(;;){
-            wait(oneSecondClock);
+            wait(fiveSecondClock);
             if (startGame && parameters.getGameTime() > 0){
                 oledUpdateFlag.set();
-                parameters.setGameTime(parameters.getGameTime() - 1);
+                parameters.setGameTime(parameters.getGameTime() - 5);
   
             }else if(startGame){
                 hwlib::cout << "time out\n";
