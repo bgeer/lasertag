@@ -15,4 +15,5 @@ ___
 ### About the lasertag library
 
 All the code is commented with doxygen.
+
 A minimum of 2 lasertag weapons are needed to **play** the game.
