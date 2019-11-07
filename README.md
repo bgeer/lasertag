@@ -3,6 +3,7 @@ This is an project for the HU HBO-ICT-TI in the Netherlands in Utrecht.
 The library is used to play 
 
 **Release date:** 07-11-2019
+
 **Authors (github accounts):**
   Bas van der Geer          (bgeer),
   Mart Notermans            (MartNotermans),
