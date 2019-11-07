@@ -1,5 +1,6 @@
 #ifndef PAUSE_DETECTOR_HPP
 #define PAUSE_DETECTOR_HPP
+/// @file
 
 #include "irInterface.hpp"
 
@@ -10,7 +11,6 @@ enum class pause_detector_state {
     signal,
 };
 
-/// @file
 /// \brief
 /// This class detects pauses from an ir led.
 /// \details

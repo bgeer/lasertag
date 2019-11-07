@@ -1,10 +1,12 @@
 #ifndef GAME_TIMER_HPP
 #define GAME_TIMER_HPP
+/// @file 
 
 #include "rtos.hpp"
 #include "gameParameters.hpp"
 
-/// @file a rtos task to time the clock
+/// @brief a rtos task to time the clock.
+/// @details This class is used for the gameTimer.
 class gameTimer : public rtos::task<> {
 
     rtos::clock fiveSecondClock;
@@ -14,10 +16,10 @@ class gameTimer : public rtos::task<> {
     rtos::flag & gameOverFlag;
 
 public:
-    /// @brief constructor
-    /// @param parameters entity class to store game parameters
-    /// @param oledUpdateFlag rtos flag to update the oled
-    /// @param gameOverFlag rtos flag to signal that the game is over
+    /// @brief Consructor for the game timer.
+    /// @param parameters entity class to store game parameters.
+    /// @param oledUpdateFlag rtos flag to update the oled.
+    /// @param gameOverFlag rtos flag to signal that the game is over.
     gameTimer(gameParameters & parameters, rtos::flag & oledUpdateFlag, rtos::flag & gameOverFlag):
         fiveSecondClock(this, 5'000'000, "five Second Clock"),
         parameters(parameters),

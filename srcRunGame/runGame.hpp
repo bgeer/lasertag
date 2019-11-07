@@ -10,10 +10,10 @@
 #include "oledController.hpp"
 #include "../srcBeeper/beeperControl.hpp"
 
+/// @file
 
 enum class runGameState{waiting, checkMessage, hitOrData, saveData, countDown, hit, gameOver};//shoot
 
-/// @file
 /// \brief
 /// Class to run the game
 /// \details

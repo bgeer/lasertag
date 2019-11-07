@@ -1,11 +1,15 @@
 #ifndef GAMEPARAMETERS_HPP
 #define GAMEPARAMETERS_HPP
+/// @file
 
+/// @brief A struct to save the enemy data in.
 struct playerHitData{ //enemy data
     uint8_t playerId = 0;
     uint16_t hits = 0;
 };
 
+/// @brief Game Parameters entity
+/// @detail A class that contains the game parameters.
 class gameParameters{
 private:
     int playerNr = 0;

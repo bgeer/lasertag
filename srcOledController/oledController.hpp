@@ -4,7 +4,9 @@
 #include "hwlib.hpp"
 
 /// @file
-/// Class for the OLED display
+
+
+/// @brief Class for the OLED display
 /// @details
 /// This class draws certains screens on the display for the player of the game.
 class oledController{
